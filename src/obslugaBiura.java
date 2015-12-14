@@ -22,7 +22,7 @@ public class obslugaBiura extends EventOf2Entities<Klient, Konsultant>{
 	public void eventRoutine(Klient klient, Konsultant konsultant) {
 		
 
-		Reklamacja reklamacja = new Reklamacja(model, "Reklamacja", true);
+		Reklamacja reklamacja = new Reklamacja(model, "other.Reklamacja", true);
 		klient.skladaReklamacje();
 		int ile = reklamacja.getIleReklamacji();
 		biuro.wolniKonsultanci.insert(konsultant);

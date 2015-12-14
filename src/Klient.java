@@ -5,7 +5,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 
-//import Stoisko.TypStoiska;
+//import other.Stoisko.TypStoiska;
 
 import desmoj.core.simulator.Entity;
 import desmoj.core.simulator.Model;

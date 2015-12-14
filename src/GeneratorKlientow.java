@@ -44,7 +44,7 @@ import desmoj.core.simulator.TimeSpan;
     }*/
 	@Override
 	public void eventRoutine() {
-		klient = new Klient(model, "Klient", false);
+		klient = new Klient(model, "other.Klient", false);
 		model.dodajDoWszystkichKlientow();
 		model.klienci.insert(klient);
 		model.dodajDoKlientowWSklepie();
