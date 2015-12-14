@@ -3,11 +3,11 @@ import java.util.Random;
 import java.util.concurrent.TimeUnit;
 
 
-///import Stoisko.TypStoiska;
+///import other.Stoisko.TypStoiska;
 
 
 
-//import Stoisko.TypStoiska;
+//import other.Stoisko.TypStoiska;
 
 import desmoj.core.dist.ContDistExponential;
 import desmoj.core.dist.ContDistUniform;
@@ -52,10 +52,10 @@ public class Sklep extends Model{
 			Experiment exp = new Experiment("Symulacja - eksperyment", TimeUnit.SECONDS, TimeUnit.MINUTES, null);
 			sklep.connectToExperiment(exp);
 
-			/*GeneratorKlientow generator = new GeneratorKlientow(sklep, "generator klientow", true, new TimeSpan(2, TimeUnit.HOURS), new TimeSpan(6, TimeUnit.HOURS), 0); //DODANE
+			/*other.GeneratorKlientow generator = new other.GeneratorKlientow(sklep, "generator klientow", true, new TimeSpan(2, TimeUnit.HOURS), new TimeSpan(6, TimeUnit.HOURS), 0); //DODANE
 			generator.schedule(new TimeSpan(0));
 
-			Wypisz statystyki = new Wypisz(sklep, "statystyki", true, sklep.getKlient());
+			other.Wypisz statystyki = new other.Wypisz(sklep, "statystyki", true, sklep.getKlient());
 			statystyki.schedule(new TimeSpan(45, TimeUnit.MINUTES));*/
 
 			exp.setShowProgressBar(true);
@@ -98,9 +98,9 @@ public void init() {
 	obslugaStoiska = new ContDistUniform(this, "Czas obsługi stoiska", 12.0, 14.0, true, true);
 	czasWRestauracji = new ContDistUniform(this, "Czas spędzony w restauracji", 20.0, 30.0, true, true);
 
-	kasa =new Kasa(this, "Kasa", false);
+	kasa =new Kasa(this, "other.Kasa", false);
 	biuro = new BiuroObslugi(this, "Biuro obsługi", true);
-	restauracja = new Restauracja(this, "Restauracja", true);
+	restauracja = new Restauracja(this, "other.Restauracja", true);
 	akutalniKlienci = new Queue<Klient>(this, "Wszyscy klienci", true, true);
 	klienci = new Queue<Klient>(this, "Klienci", true, true);
 	konsultant1 = new Konsultant(this, "konsultant1", true );
