@@ -1,22 +1,24 @@
 package Symulacja.GUI;
 
-import Symulacja.GUI.Panel;
-import b.b.J;
-import clojure.lang.IFn;
+
+
+import algo.Sklep;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
-/**
- *
- * Created by maja on 14.12.15.
- */
+
 public class OknoStartowe extends JFrame{
 
-    JFrame frame = new JFrame();
-    JPanel panel1 = new JPanel();
-    JPanel panel2 = new JPanel();
-    JPanel panel3 = new JPanel();
+
+    static GridLayout layout1 = new GridLayout(2,3);
+    static GridLayout layout2 = new GridLayout(4,1);
+
+    final static JPanel panel1 = new JPanel(layout1);
+    final static JPanel panel2 = new JPanel(layout1);
+    final static JPanel panel3 = new JPanel(layout1);
     JComboBox<Integer> konsultantCombo = new JComboBox<Integer>();
     JComboBox<Integer> stolikCombo = new JComboBox<Integer>();
     JComboBox<Double> pojawienieSieCombo = new JComboBox<Double>();
@@ -33,11 +35,9 @@ public class OknoStartowe extends JFrame{
     JLabel minRestLabel = new JLabel("Wybierz min czas obłsugi klienta w restauraci");
     JLabel minBiuroLaber = new JLabel("Wybierz min czas obsługi klienta w biurze");
     JLabel maxStoiskoLabel = new JLabel("Wybierz max czas obsługi klienta na stoisku");
-    JLabel maxRestLabel = new JLabel("Wybierz max czas obłsugi klienta w restauraci");
+    JLabel maxRestLabel = new JLabel("Wybierz max czas obłsugi klienta w restauracji");
     JLabel maxBiuroLabel = new JLabel("Wybierz max czas obsługi klienta w biurze");
-
-
-
+    final static JButton startButton = new JButton("Start");
 
 
 
@@ -49,14 +49,31 @@ public class OknoStartowe extends JFrame{
 
     public static void main(String [ ] args){
 
+        SwingUtilities.invokeLater(new Runnable() {
+            @Override
+            public void run() {
+                final JFrame frame = new JFrame();
+                frame.setLayout(layout2);
+                frame.setSize(1200, 600);
+                frame.add(panel1);
+                frame.add(panel2);
+                frame.add(panel3);
+                frame.add(startButton);
+                frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+                frame.setVisible(true);
+                new OknoStartowe();
+            }
+        });
 
-        new OknoStartowe();
 
 
 
     }
 
     private void initComponents(){
+
+
+
 
         konsultantCombo.addItem(1);
         konsultantCombo.addItem(2);
@@ -116,34 +133,33 @@ public class OknoStartowe extends JFrame{
         maxCzasBiura.addItem(8.0);
         maxCzasBiura.addItem(10.0);
 
-        panel1.add(konsultantLabel, BorderLayout.WEST);
-        panel1.add(konsultantCombo, BorderLayout.WEST);
-        panel1.add(stolikLabel, BorderLayout.CENTER);
-        panel1.add(stolikCombo, BorderLayout.CENTER);
-        panel1.add(pojawienieLabel, BorderLayout.EAST);
-        panel1.add(pojawienieSieCombo, BorderLayout.EAST);
+        panel1.add(konsultantLabel);
+        panel1.add(konsultantCombo);
+        panel1.add(stolikLabel);
+        panel1.add(stolikCombo);
+        panel1.add(pojawienieLabel);
+        panel1.add(pojawienieSieCombo);
 
-        panel2.add(minStoiskoLabel, BorderLayout.WEST);
-        panel2.add(minCzasStoiska, BorderLayout.WEST);
-        panel2.add(minBiuroLaber, BorderLayout.CENTER);
-        panel2.add(minCzasBiura, BorderLayout.CENTER);
-        panel2.add(minRestLabel, BorderLayout.EAST);
-        panel2.add(minCzasRest, BorderLayout.EAST);
+        panel2.add(minStoiskoLabel);
+        panel2.add(minCzasStoiska);
+        panel2.add(minBiuroLaber);
+        panel2.add(minCzasBiura);
+        panel2.add(minRestLabel);
+        panel2.add(minCzasRest);
 
-        panel3.add(maxStoiskoLabel, BorderLayout.WEST);
-        panel3.add(maxCzasStoiska , BorderLayout.WEST);
-        panel3.add(maxBiuroLabel, BorderLayout.CENTER);
-        panel3.add(maxCzasBiura, BorderLayout.CENTER);
-        panel3.add(maxRestLabel, BorderLayout.EAST);
-        panel3.add(maxCzasRest, BorderLayout.EAST);
+        panel3.add(maxStoiskoLabel);
+        panel3.add(maxCzasStoiska);
+        panel3.add(maxBiuroLabel);
+        panel3.add(maxCzasBiura);
+        panel3.add(maxRestLabel);
+        panel3.add(maxCzasRest);
 
-        frame.setSize(600, 600);
-        frame.add(panel1, BorderLayout.NORTH);
-        frame.add(panel2, BorderLayout.CENTER);
-        frame.add(panel3, BorderLayout.SOUTH);
-        frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        frame.pack();
-        frame.setVisible(true);
+        startButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+            }
+        });
 
     }
 
