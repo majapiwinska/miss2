@@ -19,7 +19,7 @@ import desmoj.core.simulator.TimeSpan;
 	private TimeInstant okres1;
 	private TimeInstant okres2;
 	private TimeOperations cos = null;
-	 private int wspGen= 1; //DODANE
+	 private int wspGen= 5; //DODANE
      private final int MAX= 600;//DODANE
      private final int MIN= 60;//DODANE
      private final int AVG= 200;
@@ -27,8 +27,11 @@ import desmoj.core.simulator.TimeSpan;
          /* @param owner the model this event belongs to
          @param name this event's name
          @param showInTrace flag to indicate if this event shall produce output for the trace*/
-        
-	public GeneratorKlientow(Model owner, String name, boolean showTrace, TimeSpan okres1, TimeSpan okres2, int wspGen) { //DODANE
+
+	private int prawdopodobienstwoZakupow, prawdopodobienstwoRestauracji, prawdopodobienstwoBiura;
+
+
+	public GeneratorKlientow(Model owner, String name, boolean showTrace, TimeSpan okres1, TimeSpan okres2, int wspGen ) { //DODANE
 		super(owner, name, false);
 		model = (Sklep)getModel();
 		stoisko = model.getStoisko();
@@ -37,13 +40,10 @@ import desmoj.core.simulator.TimeSpan;
 		this.okres1 = cos.add(okres1, presentTime());
 		this.okres2 = cos.add(okres2, presentTime());
 		this.wspGen= wspGen;
-		
-		
+
+
 }
-/*
-	public void setWspGet (int wsp) { //DODANE
-        this.wspGen= wspGen; //DODANE
-    }*/
+
 	@Override
 	public void eventRoutine() {
 		klient = new Klient(model, "other.algo.Klient", false);
@@ -52,10 +52,10 @@ import desmoj.core.simulator.TimeSpan;
 		model.dodajDoKlientowWSklepie();
 
 		Random rand = new Random();
-		
+
 		//ustalenie czy klient ma zrobić zakupy 80% i wylosowanie na których stoiskach
-		int zakupy = rand.nextInt(10);
-		if(zakupy < 8){
+		int zakupy = rand.nextInt(100);
+		if(zakupy < prawdopodobienstwoZakupow){
 			klient.setMaZakupy(true);
 			
 				Random ran = new Random();
@@ -66,16 +66,16 @@ import desmoj.core.simulator.TimeSpan;
 
 
 		//ustalenie czy klient idzie do restauracji 40%
-		int restauracja = rand.nextInt(10);
-		if(restauracja < 4) {
+		int restauracja = rand.nextInt(100);
+		if(restauracja < prawdopodobienstwoRestauracji) {
 			klient.setMaRestauracje(true);
 
 		}
 		else klient.setMaRestauracje(false);
 		
 		//ustalenie czy klient idzie do biura obsługi 10%
-		int biuro = rand.nextInt(10);
-		if (biuro < 4)
+		int biuro = rand.nextInt(100);
+		if (biuro < prawdopodobienstwoBiura)
 			klient.setMaBiuro(true);
 		else klient.setMaBiuro(false);
 		
@@ -131,6 +131,17 @@ import desmoj.core.simulator.TimeSpan;
 		}
 	}
 
- }	
+		public void setPrawdopodobienstwoRestauracji(int prawdopodobienstwoRestauracji) {
+			this.prawdopodobienstwoRestauracji = prawdopodobienstwoRestauracji;
+		}
+
+		public void setPrawdopodobienstwoBiura(int prawdopodobienstwoBiura) {
+			this.prawdopodobienstwoBiura = prawdopodobienstwoBiura;
+		}
+
+		public void setPrawdopodobienstwoZakupow(int prawdopodobienstwoZakupow) {
+			this.prawdopodobienstwoZakupow = prawdopodobienstwoZakupow;
+		}
+	}
 		
 

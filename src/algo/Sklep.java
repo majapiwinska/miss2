@@ -1,5 +1,6 @@
 package algo;
 
+import Symulacja.GUI.*;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
@@ -29,88 +30,128 @@ import desmoj.core.simulator.TimeSpan;
 	                        to the trace file*/
 public class Sklep extends Model{
 		public Sklep(Model owner, String name, boolean showReport, boolean showTrace) {
-		super(null, name, showReport, showTrace);
 
-	}
+			super(null, name, showReport, showTrace);
 
-		public static void main(String [ ] args)
-		{
-			/*instantiate an experiment
+		}
+
+			Map<Integer, Stoisko.TypStoiska> mapa;
+			private ContDistExponential pojawienieSięKlienta;
+			private ContDistUniform obslugaKasy;
+			private ContDistUniform obslugaBiura;
+			private ContDistUniform obslugaStoiska;
+			private ContDistUniform czasWRestauracji;
+
+			private Kasa kasa;
+			private BiuroObslugi biuro;
+			private Restauracja restauracja;
+			private Stoisko stoisko;
+			Konsultant konsultant1, konsultant2;
+
+			Klient klient ;
+			public GeneratorKlientow generator;
+
+			private Random rand = new Random();
+			protected int maxLudzi = rand.nextInt(50);
+			protected Queue<Klient> akutalniKlienci, klienci;
+			protected int ileLudzi;
+
+
+			protected Stoisko meble;
+			protected Stoisko lazienka;
+			protected Stoisko kuchnia;
+			protected Stoisko dekoracje;
+			protected Stoisko sypialnia;
+
+			int iloscObsluzonychKlientow = 0;
+			int wszyscyKlienci = 0;
+			int	klienciWSklepie = 0;
+			int wszyscyWRestauracji = 0;
+			int wszyscyWBiurze = 0;
+
+			int mebleInt, sypialniaInt, dekoracjeInt, kuchniaInt, lazienkaInt;
+
+
+			double czasGenerowaniaKlienta ;
+
+
+/*	public static void main(String [ ] args)
+	{
+			*//*instantiate an experiment
 			instantiate the model
 			connect the model to the experiment
 			determine the length of the simulation run or set an ending criterion for the simulation run
 			set the start and end time for the trace file
 			start the scheduler
 			initiate reporting
-			clean up after the simulation run has ended*/
+			clean up after the simulation run has ended*//*
 
 
-			 //create model and experiment
-			 // null as first parameter because it is the main model and has no mastermodel
-			Sklep sklep = new Sklep(null, "Symulacja", false, false);
-			Experiment exp = new Experiment("Symulacja - eksperyment", TimeUnit.SECONDS, TimeUnit.MINUTES, null);
-			sklep.connectToExperiment(exp);
+		//create model and experiment
 
-			/*other.algo.GeneratorKlientow generator = new other.algo.GeneratorKlientow(sklep, "generator klientow", true, new TimeSpan(2, TimeUnit.HOURS), new TimeSpan(6, TimeUnit.HOURS), 0); //DODANE
-			generator.schedule(new TimeSpan(0));
-
-			other.algo.Wypisz statystyki = new other.algo.Wypisz(sklep, "statystyki", true, sklep.getKlient());
-			statystyki.schedule(new TimeSpan(45, TimeUnit.MINUTES));*/
-
-			exp.setShowProgressBar(true);
-			exp.stop(new TimeInstant(720, TimeUnit.MINUTES));
-			exp.tracePeriod(new TimeInstant(0), new TimeInstant(100, TimeUnit.MINUTES));
-			exp.debugPeriod(new TimeInstant(0), new TimeInstant(50, TimeUnit.MINUTES));
+		// null as first parameter because it is the main model and has no mastermodel
 
 
-			exp.start();
-			exp.report();
+		Sklep sklep = new Sklep(null, "Symulacja", false, false);
+		Experiment exp = new Experiment("Symulacja - eksperyment", TimeUnit.SECONDS, TimeUnit.MINUTES, null);
+		sklep.connectToExperiment(exp);
+
+		exp.setShowProgressBar(true);
+		exp.stop(new TimeInstant(720, TimeUnit.MINUTES));
+		exp.tracePeriod(new TimeInstant(0), new TimeInstant(100, TimeUnit.MINUTES));
+		exp.debugPeriod(new TimeInstant(0), new TimeInstant(50, TimeUnit.MINUTES));
 
 
-			System.out.println("Ilość obsłużonych łacznie klientów w kasach: " + sklep.iloscObsluzonychKlientow);
-			System.out.println("Ilość obsłużonych łacznie klientów na stoisku meble: " +sklep.meble.klienciNaStoisku);
-			System.out.println("Ilość obsłużonych łacznie klientów na stoisku dekoracje: " +sklep.dekoracje.klienciNaStoisku);
-			System.out.println("Ilość obsłużonych łacznie klientów na stoisku lazienka: " +sklep.lazienka.klienciNaStoisku);
-			System.out.println("Ilość obsłużonych łacznie klientów na stoisku kuchnia: " +sklep.kuchnia.klienciNaStoisku);
-			System.out.println("Ilość obsłużonych łacznie klientów na stoisku sypialnia: " +sklep.sypialnia.klienciNaStoisku);
-			System.out.println("Ilość ludzi w sklepie przez cały dzień: " + sklep.getWszyscyKlienci()+ "\r\n");
-			System.out.println("Ilość wszystkich klientów w restauracji przez cały dzień: " + sklep.wszyscyWRestauracji);
-			System.out.println("Ilość wszystkich klientów w bierze przez cały dzień: " + sklep.wszyscyWBiurze);
-			exp.finish();
-		};
-
-@Override
-public String description() {
-	// TODO Auto-generated method stub
-	return null;
-}
+		exp.start();
+		exp.report();
 
 
 
+		System.out.println("Ilość obsłużonych łacznie klientów w kasach: " + sklep.iloscObsluzonychKlientow);
+		System.out.println("Ilość obsłużonych łacznie klientów na stoisku meble: " +sklep.meble.klienciNaStoisku);
+		System.out.println("Ilość obsłużonych łacznie klientów na stoisku dekoracje: " +sklep.dekoracje.klienciNaStoisku);
+		System.out.println("Ilość obsłużonych łacznie klientów na stoisku lazienka: " +sklep.lazienka.klienciNaStoisku);
+		System.out.println("Ilość obsłużonych łacznie klientów na stoisku kuchnia: " +sklep.kuchnia.klienciNaStoisku);
+		System.out.println("Ilość obsłużonych łacznie klientów na stoisku sypialnia: " +sklep.sypialnia.klienciNaStoisku);
+		System.out.println("Ilość ludzi w sklepie przez cały dzień: " + sklep.getWszyscyKlienci()+ "\r\n");
+		System.out.println("Ilość wszystkich klientów w restauracji przez cały dzień: " + sklep.wszyscyWRestauracji);
+		System.out.println("Ilość wszystkich klientów w bierze przez cały dzień: " + sklep.wszyscyWBiurze);
 
-@Override
-public void init() {
+		exp.finish();
+	};*/
 
-	pojawienieSięKlienta = new ContDistExponential(this, "Pojawienie się klienta", 4.0, true, true);
-	obslugaKasy = new ContDistUniform(this, "Czas obsługi", 2.0, 4.0, true, true);
-	obslugaBiura = new ContDistUniform(this, "Czas osługi biura", 2.0, 4.0, true, true);
-	obslugaStoiska = new ContDistUniform(this, "Czas obsługi stoiska", 12.0, 14.0, true, true);
-	czasWRestauracji = new ContDistUniform(this, "Czas spędzony w restauracji", 20.0, 30.0, true, true);
-
-	kasa =new Kasa(this, "other.algo.Kasa", false);
-	biuro = new BiuroObslugi(this, "Biuro obsługi", true);
-	restauracja = new Restauracja(this, "other.algo.Restauracja", true);
-	akutalniKlienci = new Queue<Klient>(this, "Wszyscy klienci", true, true);
-	klienci = new Queue<Klient>(this, "Klienci", true, true);
-	konsultant1 = new Konsultant(this, "konsultant1", true );
-	konsultant2 = new Konsultant(this, "konsultant2", true );
-
-	getBiuro().wolniKonsultanci.insert(konsultant1);
-	getBiuro().wolniKonsultanci.insert(konsultant2);
+	@Override
+	public String description() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 
 
 
-	meble = new Stoisko(this, "Meble", true, Stoisko.TypStoiska.meble);
+
+	@Override
+	public void init() {
+
+		pojawienieSięKlienta = new ContDistExponential(this, "Pojawienie się klienta", czasGenerowaniaKlienta, true, true);
+		obslugaKasy = new ContDistUniform(this, "Czas obsługi", 2.0, 4.0, true, true);
+		obslugaBiura = new ContDistUniform(this, "Czas osługi biura", 2.0, 4.0, true, true);
+		obslugaStoiska = new ContDistUniform(this,"Czas obsługi stoiska", 12.0, 14.0, true, true);
+		czasWRestauracji = new ContDistUniform(this, "Czas spędzony w restauracji", 20.0, 30.0, true, true);
+
+		kasa =new Kasa(this, "other.algo.Kasa", false);
+		akutalniKlienci = new Queue<Klient>(this, "Wszyscy klienci", true, true);
+		biuro = new BiuroObslugi(this, "Biuro obsługi", true);
+		restauracja = new Restauracja(this, "other.algo.Restauracja", true);
+		klienci = new Queue<Klient>(this, "Klienci", true, true);
+		konsultant1 = new Konsultant(this, "konsultant1", true );
+		konsultant2 = new Konsultant(this, "konsultant2", true );
+
+		getBiuro().wolniKonsultanci.insert(konsultant1);
+		getBiuro().wolniKonsultanci.insert(konsultant2);
+
+
+
+		meble = new Stoisko(this, "Meble", true, Stoisko.TypStoiska.meble);
 	 lazienka = new Stoisko(this, "lazienka", true, Stoisko.TypStoiska.lazienka);
 	 kuchnia = new Stoisko(this, "kuchnia", true, Stoisko.TypStoiska.kuchnia);
 	 dekoracje = new Stoisko(this, "dekoracje", true, Stoisko.TypStoiska.dekoracje);
@@ -129,17 +170,23 @@ public void init() {
 
 @Override
 public void doInitialSchedules() {
-	GeneratorKlientow generator = new GeneratorKlientow(this, "generator klientów",false, new TimeSpan(3, TimeUnit.HOURS), new TimeSpan(9, TimeUnit.HOURS), 5);
-	generator.schedule(new TimeSpan(3, TimeUnit.MINUTES));
 
+
+	generator.schedule(new TimeSpan(3, TimeUnit.MINUTES));
 
 
 	Wypisz statystyki = new Wypisz(this, "statystyki", false);
 	statystyki.schedule(new TimeSpan(45, TimeUnit.MINUTES));
 
-
 }
 
+	public void inicjalizacjaGeneratora(int prawdopodobienstwoZakupow, int prawdopodobienstwoRestauracji, int prawdopodobienstwoBiura){
+		generator = new GeneratorKlientow(this, "generator klientów",false, new TimeSpan(3, TimeUnit.HOURS), new TimeSpan(9, TimeUnit.HOURS), 5);
+		generator.setPrawdopodobienstwoZakupow(prawdopodobienstwoZakupow);
+		generator.setPrawdopodobienstwoRestauracji(prawdopodobienstwoRestauracji);
+		generator.setPrawdopodobienstwoBiura(prawdopodobienstwoBiura);
+
+	}
 
 
 public double getPojawienieSięKlienta() {
@@ -257,42 +304,55 @@ public Stoisko odpowiednieStoisko(Stoisko.TypStoiska typ){
 
 }
 
-	Map<Integer, Stoisko.TypStoiska> mapa;
-private ContDistExponential pojawienieSięKlienta;
-private ContDistUniform obslugaKasy;
-private ContDistUniform obslugaBiura;
-private ContDistUniform obslugaStoiska;
-private ContDistUniform czasWRestauracji;
 
-private Kasa kasa;
-private BiuroObslugi biuro;
-private Restauracja restauracja;
-private Stoisko stoisko;
-	Konsultant konsultant1, konsultant2;
+	public Stoisko getMeble() {
+		return meble;
+	}
 
- Klient klient ;
+	public Stoisko getLazienka() {
+		return lazienka;
+	}
 
-private Random rand = new Random();
-protected int maxLudzi = rand.nextInt(50);
-protected Queue<Klient> akutalniKlienci, klienci;
-protected int ileLudzi;
-;
+	public Stoisko getKuchnia() {
+		return kuchnia;
+	}
 
-protected Stoisko meble;
-protected Stoisko lazienka;
-protected Stoisko kuchnia;
-protected Stoisko dekoracje;
-protected Stoisko sypialnia;
+	public Stoisko getDekoracje() {
+		return dekoracje;
+	}
 
-	int iloscObsluzonychKlientow = 0;
-	int wszyscyKlienci = 0;
-	int	klienciWSklepie = 0;
-	int wszyscyWRestauracji = 0;
-	int wszyscyWBiurze = 0;
+	public Stoisko getSypialnia() {
+		return sypialnia;
+	}
+
+	public int getIloscObsluzonychKlientow() {
+		return iloscObsluzonychKlientow;
+	}
+
+	public int getKlienciWSklepie() {
+		return klienciWSklepie;
+	}
+
+	public int getWszyscyWRestauracji() {
+		return wszyscyWRestauracji;
+	}
+
+	public int getWszyscyWBiurze() {
+		return wszyscyWBiurze;
+	}
 
 
+	public double getCzasGenerowaniaKlienta() {
+		return czasGenerowaniaKlienta;
+	}
 
+	public void setCzasGenerowaniaKlienta(double czasGenerowaniaKlienta) {
+		this.czasGenerowaniaKlienta = czasGenerowaniaKlienta;
+	}
 
+	public GeneratorKlientow getGenerator() {
+		return generator;
+	}
 }
 
 /*

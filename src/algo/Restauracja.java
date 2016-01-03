@@ -10,8 +10,8 @@ public class Restauracja extends Entity{
 	Sklep model;
 	Queue<Klient>  kolejkaDoRestauracji;
 	int klienciWRestauracji;
-	int wolneStoliki = 60;
-	
+	int wolneStoliki = 40;
+
 	
 	public Restauracja(Model owner, String name, boolean showTrace) {
 		super(owner, name, showTrace);

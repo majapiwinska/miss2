@@ -45,7 +45,6 @@ public class Wypisz extends ExternalEvent {
             System.out.println("Aktualni klienci na stoisku lazienka: " + model.lazienka.aktualniKlienciNaStoisku);
             System.out.println("Aktualni klienci na stoisku kuchnia: " + model.kuchnia.aktualniKlienciNaStoisku);
             System.out.println("Aktualni klienci na stoisku sypialnia: " + model.sypialnia.aktualniKlienciNaStoisku);
-
             System.out.println("Akutalni kliencie w sklepie: "+ model.klienciWSklepie);
 
             //liczba ludzi w barze
