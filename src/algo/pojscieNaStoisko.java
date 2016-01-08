@@ -24,8 +24,6 @@ public class pojscieNaStoisko extends ExternalEvent{
 	@Override
 	public void eventRoutine() {
 		
-		//klient = stoisko.kolejkaStoisko.first();
-		
 		typ = klient.ktoreStoiska.get(0);
 		stoisko = model.odpowiednieStoisko(typ);
 			

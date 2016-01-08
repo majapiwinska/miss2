@@ -13,7 +13,6 @@ public class Stoisko extends Entity {
 	private boolean otwarte;
 	protected TypStoiska typ;
 	Sklep model;
-	Random rand = new Random();
 	protected Queue<Klient> kolejkaStoisko;
 	
 	
@@ -33,8 +32,6 @@ public class Stoisko extends Entity {
 
 
 	};
-	
-	boolean odwiedzone;
 
 	public Stoisko(Model owner, String name, boolean showTrace, TypStoiska typ) {
 		super(owner, name, showTrace);
@@ -42,41 +39,13 @@ public class Stoisko extends Entity {
 		this.typ = typ;
 		kolejkaStoisko = new Queue<Klient>(model, "Klienci na stoiskiu", true, true );
 	}
-	
-	
-	
-	
-	public Queue<Klient> getKolejkaStoisko() {
-		return kolejkaStoisko;
-	}
 
-	public void setKolejkaStoisko(Queue<Klient> kolejkaStoisko) {
-		this.kolejkaStoisko = kolejkaStoisko;
-	}
-	
-
-	public int getKlienciNaStoisku() {
-		return klienciNaStoisku;
-	}
-	public void setKlienciNaStoisku(int klienciNaStoisku) {
-		this.klienciNaStoisku = klienciNaStoisku;
-	}
-	public boolean isOtwarte() {
-		return otwarte;
-	}
-	public void setOtwarte(boolean otwarte) {
-		this.otwarte = otwarte;
-	}
 
 
 	public TypStoiska getTyp() {
 		return typ;
 	}
 
-
-	public void setTyp(TypStoiska typ) {
-		this.typ = typ;
-	}
 
 	public void dodajKlienta() {
 		this.aktualniKlienciNaStoisku++;

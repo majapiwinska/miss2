@@ -15,9 +15,7 @@ public class Wypisz extends ExternalEvent {
     Sklep model;
     Klient klient;
     int delay;
-    final int SIZE= 600;
-    //private ChartFrame chart;
-    private FileWriter zapis;
+
 
 
 
@@ -47,6 +45,17 @@ public class Wypisz extends ExternalEvent {
             System.out.println("Aktualni klienci na stoisku sypialnia: " + model.sypialnia.aktualniKlienciNaStoisku);
             System.out.println("Akutalni kliencie w sklepie: "+ model.klienciWSklepie);
 
+            zapis= new FileWriter ("statystyki.txt", true);
+            zapis.write("STATYSTYKI SKLEPU Z GODZINY: " + presentTime() + "\r\n");
+
+            zapis.write("Aktualni klienci na stoisku meble: " + model.meble.aktualniKlienciNaStoisku);
+            zapis.write("Aktualni klienci na stoisku dekoracje: " + model.dekoracje.aktualniKlienciNaStoisku);
+            zapis.write("Aktualni klienci na stoisku lazienka: " + model.lazienka.aktualniKlienciNaStoisku);
+            zapis.write("Aktualni klienci na stoisku kuchnia: " + model.kuchnia.aktualniKlienciNaStoisku);
+            zapis.write("Aktualni klienci na stoisku sypialnia: " + model.sypialnia.aktualniKlienciNaStoisku);
+            zapis.write("Akutalni kliencie w sklepie: "+ model.klienciWSklepie);
+
+
             //liczba ludzi w barze
             System.out.println("Aktualni klienci w restauracji: " + model.getRestauracja().klienciWRestauracji+ "\r\n");
             System.out.println("Aktualni klienci w biurze: " + model.getBiuro().klienciWBiurze + "\r\r");
@@ -61,7 +70,7 @@ public class Wypisz extends ExternalEvent {
         }
 
         schedule(new TimeSpan(15, TimeUnit.MINUTES));
-        //tutaj ustalasz co ile sie odswieza
+        //tutaj ustala co ile sie odswieza
         try {
             Thread.sleep(delay);
         } catch (Exception e) {
