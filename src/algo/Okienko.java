@@ -1,4 +1,4 @@
-package other; /**
+package algo; /**
  * Created by kasiazukowska on 2015-12-13.
  **/
 import rendering.KasyRender;

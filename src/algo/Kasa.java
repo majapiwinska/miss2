@@ -1,20 +1,19 @@
 package algo;
 
+import java.awt.*;
+
 
 import desmoj.core.simulator.Entity;
 import desmoj.core.simulator.Model;
 import desmoj.core.simulator.Queue;
 
 
-public class Kasa extends Entity{
-
+public class Kasa extends Entity implements Rysownik {
 
 	protected Queue<Klient> kolejkaDoKas, klientWKasach;
-	private OtwarteKasy kasa1, kasa2, kasa3, kasa4;
+	private OtwarteKasy kasa1, kasa2, kasa3;
 	protected Queue<OtwarteKasy> otwarteKasy;
-	
-	
-	
+
 	public Kasa(Model owner, String name, boolean showTrace) {
 		super(owner, name, showTrace);
 		Sklep model = (Sklep)getModel();
@@ -27,13 +26,11 @@ public class Kasa extends Entity{
 		otwarteKasy.insert(kasa1);
 		otwarteKasy.insert(kasa2);
 		otwarteKasy.insert(kasa3);
-		otwarteKasy.insert(kasa4);
-		
 	}
 
-    public Queue<Klient> getKolejkaDoKas() {
-        return kolejkaDoKas;
-    }
+	public Queue<Klient> getKolejkaDoKas() {
+		return kolejkaDoKas;
+	}
 
 	@Override
 	public void rysuj(Graphics g, int x, int y) {
@@ -47,6 +44,5 @@ public class Kasa extends Entity{
 		String[] cut = toCut.split("#", toCut.indexOf("#"));
 		System.out.println("ll");
 		return cut[0];
-	
-	
+	}
 }

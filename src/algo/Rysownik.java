@@ -5,5 +5,5 @@ import javax.swing.*;
 import java.awt.*;
 
 public interface Rysownik {
-    void rysuj(Graphics g);
+    void rysuj(Graphics g, int x, int y);
 }

@@ -2,10 +2,9 @@ package algo;
 
 import desmoj.core.dist.ContDistExponential;
 import desmoj.core.dist.ContDistUniform;
-import desmoj.core.simulator.Model;
-import desmoj.core.simulator.Queue;
-import desmoj.core.simulator.TimeSpan;
+import desmoj.core.simulator.*;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
@@ -62,6 +61,16 @@ public class Sklep extends Model{
 
 		double czasGenerowaniaKlienta ;
 
+	public static ArrayList<Kasa> kasyLista = new ArrayList<>();
+	public static ArrayList<Stoisko> listaStoisk = new ArrayList<>();
+
+	public static ArrayList<Kasa> getKasyLista() {
+		return kasyLista;
+	}
+
+	public static ArrayList<Stoisko> getListaStoisk() {
+		return listaStoisk;
+	}
 
 	@Override
 	public String description() {
@@ -262,6 +271,35 @@ public Stoisko odpowiednieStoisko(Stoisko.TypStoiska typ){
 		this.czasGenerowaniaKlienta = czasGenerowaniaKlienta;
 	}
 
+
+	private static Sklep instance = null;
+	public static Sklep getInstance(){
+		if(instance==null)
+			return instance = new Sklep(null, "Symulacja", true, true);
+		else
+			return instance;
+	}
+
+	//zamiast maina bo main jest static
+	public void executeSklep() {
+		Experiment exp = new Experiment("Symulacja - eksperyment", TimeUnit.SECONDS, TimeUnit.MINUTES, null);
+		instance.connectToExperiment(exp);
+
+		exp.setShowProgressBar(false);
+		exp.stop(new TimeInstant(1500, TimeUnit.MINUTES));
+		exp.tracePeriod(new TimeInstant(0), new TimeInstant(100, TimeUnit.MINUTES));
+		exp.debugPeriod(new TimeInstant(0), new TimeInstant(50, TimeUnit.MINUTES));
+
+
+//		Thread thr = new Thread() {
+//			@Override
+//			public void run() {
+//				exp.start();
+//			}
+//		};
+//		exp.report();
+//		exp.finish();
+	}
 }
 
 /*
