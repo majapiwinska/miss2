@@ -22,7 +22,6 @@ public class wyjscieZeSklepu extends ExternalEvent{
 	public void eventRoutine() {
 		model.akutalniKlienci.remove(klient);
 		model.odeijmijOdKlientowWSklepie();
-		//model.klienci.remove(klient);
 		
 		
 	}

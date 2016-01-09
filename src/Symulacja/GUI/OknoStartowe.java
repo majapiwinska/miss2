@@ -18,37 +18,23 @@ import java.util.concurrent.TimeUnit;
     public double czasPojawieniaKlienta;
     private int prawdopodobienstwoZakupow, prawdopodobienstwoRestauracji, prawdopodobienstwoBiura;
 
-
-
-        static GridLayout layout1 = new GridLayout(2,3);
-        static GridLayout layout2 = new GridLayout(4,1);
-
-        final static JPanel panel1 = new JPanel(layout1);
-        final static JPanel panel2 = new JPanel(layout1);
-        final static JPanel panel3 = new JPanel(layout1);
-        //JComboBox<Integer> konsultantCombo = new JComboBox<Integer>();
-        final JComboBox<Integer> stolikCombo = new JComboBox<Integer>();
+        final static JPanel panel1 = new JPanel();
+        final static JPanel panel2 = new JPanel();
+        final static JPanel panel3 = new JPanel();
+        final static JPanel panel4 = new JPanel();
+        final static JPanel panel5 = new JPanel();
          JComboBox<Double> pojawienieSieCombo = new JComboBox<Double>();
         final JComboBox<Double> minCzasStoiska = new JComboBox<Double>();
-        JComboBox<Double> minCzasRest = new JComboBox<Double>();
-        JComboBox<Double> minCzasBiura = new JComboBox<Double>();
-        JComboBox<Double> maxCzasStoiska = new JComboBox<Double>();
-        JComboBox<Double> maxCzasRest = new JComboBox<Double>();
-        JComboBox<Double> maxCzasBiura = new JComboBox<Double>();
-      //  JLabel konsultantLabel = new JLabel("Wybierz liczbę konsultantów");
-        JLabel stolikLabel = new JLabel("Wbierz liczbę stolików w restauracji");
+
         JLabel pojawienieLabel = new JLabel("Wybierz co jaki czas pojawi się klient (minuty)");
-        JLabel minStoiskoLabel = new JLabel("Wybierz min czas obsługi klienta na stoisku");
-        JLabel minRestLabel = new JLabel("Wybierz min czas obłsugi klienta w restauraci");
-        JLabel minBiuroLaber = new JLabel("Wybierz min czas obsługi klienta w biurze");
-        JLabel maxStoiskoLabel = new JLabel("Wybierz max czas obsługi klienta na stoisku");
-        JLabel maxRestLabel = new JLabel("Wybierz max czas obłsugi klienta w restauracji");
-        JLabel maxBiuroLabel = new JLabel("Wybierz max czas obsługi klienta w biurze");
+        JLabel zakupyLabel = new JLabel("Wpisz % generowania prawdopodobieństwa zakupów dla klientów");
+        JLabel biuroLabel = new JLabel("Wpisz % generowania prawdopodobieństwa pójścia do biura dla klientów");
+        JLabel restauracjaLabel = new JLabel("Wpisz % generowania prawdopodobieństwa pójścia do restauracji dla klientów");
 
         final static JButton startButton = new JButton("Start");
-        final static JTextField zakupyJTF = new JTextField("Prawdopodobienstwo zakupów w %");
-        final static JTextField restauracjaJTF = new JTextField("Prawdopodobieństwo restauracji w &");
-        final static JTextField biuroJTF = new JTextField("Prawdopodobienstwo biura w %");
+        final static JComboBox  zakupyJTF = new JComboBox();
+        final static JComboBox restauracjaJTF = new JComboBox();
+        final static JComboBox biuroJTF = new JComboBox();
 
 
 
@@ -66,9 +52,13 @@ import java.util.concurrent.TimeUnit;
                 @Override
                 public void run() {
                     final JFrame frame = new JFrame();
-                    frame.setLayout(layout2);
-                    frame.setSize(1200, 600);
+                    frame.setLayout(new BoxLayout(frame.getContentPane(), BoxLayout.PAGE_AXIS));
+                    frame.setSize(900, 250);
                     frame.add(panel1);
+                    frame.add(panel2);
+                    frame.add(panel3);
+                    frame.add(panel4);
+                    frame.add(panel5);
                     frame.add(startButton);
                     frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
                     frame.setVisible(true);
@@ -94,11 +84,48 @@ import java.util.concurrent.TimeUnit;
             pojawienieSieCombo.addItem(9.0);
             pojawienieSieCombo.addItem(10.0);
 
+            zakupyJTF.addItem("10");
+            zakupyJTF.addItem("20");
+            zakupyJTF.addItem("30");
+            zakupyJTF.addItem("40");
+            zakupyJTF.addItem("50");
+            zakupyJTF.addItem("60");
+            zakupyJTF.addItem("70");
+            zakupyJTF.addItem("80");
+            zakupyJTF.addItem("90");
 
+
+
+            restauracjaJTF.addItem("10");
+            restauracjaJTF.addItem("20");
+            restauracjaJTF.addItem("30");
+            restauracjaJTF.addItem("40");
+            restauracjaJTF.addItem("50");
+            restauracjaJTF.addItem("60");
+            restauracjaJTF.addItem("70");
+            restauracjaJTF.addItem("80");
+            restauracjaJTF.addItem("90");
+
+
+
+            biuroJTF.addItem("10");
+            biuroJTF.addItem("20");
+            biuroJTF.addItem("30");
+            biuroJTF.addItem("40");
+            biuroJTF.addItem("50");
+            biuroJTF.addItem("60");
+            biuroJTF.addItem("70");
+            biuroJTF.addItem("80");
+
+            panel1.add(pojawienieLabel);
             panel1.add(pojawienieSieCombo);
-            panel1.add(zakupyJTF);
-            panel1.add(restauracjaJTF);
-            panel1.add(biuroJTF);
+            panel2.add(zakupyLabel);
+            panel2.add(zakupyJTF);
+            panel3.add(restauracjaLabel);
+            panel3.add(restauracjaJTF);
+            panel4.add(biuroLabel);
+            panel4.add(biuroJTF);
+            panel5.add(startButton);
 
 
             startButton.addActionListener(new ActionListener() {
@@ -118,24 +145,28 @@ import java.util.concurrent.TimeUnit;
             zakupyJTF.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
-                    String text = zakupyJTF.getText();
-                    prawdopodobienstwoZakupow = Integer.parseInt(text);
+                    JComboBox cb = (JComboBox)e.getSource();
+                    prawdopodobienstwoZakupow = Integer.parseInt((String)cb.getSelectedItem());
+
                 }
             });
+
+
+
 
             restauracjaJTF.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
-                    String text = restauracjaJTF.getText();
-                    prawdopodobienstwoRestauracji = Integer.parseInt(text);
+                    JComboBox cb = (JComboBox)e.getSource();
+                    prawdopodobienstwoRestauracji = Integer.parseInt((String)cb.getSelectedItem());
                 }
             });
 
             biuroJTF.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
-                    String text = biuroJTF.getText();
-                    prawdopodobienstwoBiura = Integer.parseInt(text);
+                    JComboBox cb = (JComboBox)e.getSource();
+                    prawdopodobienstwoBiura = Integer.parseInt((String)cb.getSelectedItem());
                 }
             });
 

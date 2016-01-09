@@ -12,7 +12,6 @@ public class obslugaBiura extends EventOf2Entities<Klient, Konsultant>{
 
 	Sklep model;
 	BiuroObslugi biuro;
-	Konsultant konsultant;
 	
 	public obslugaBiura(Model owner, String name, boolean showTrace) {
 		super(owner, name, showTrace);

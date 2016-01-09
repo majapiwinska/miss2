@@ -9,7 +9,6 @@ public class Klient extends Entity{
 
 	 Sklep model;
 	 Restauracja restauracja;
-	 Stoisko stoisko;
 	 Kasa kasa;
 	 Klient klient;
 	 
@@ -33,12 +32,8 @@ public class Klient extends Entity{
 	 
 	public Klient(Model owner, String name, boolean showTrace) {
 		super(owner, name, false);
-		
-//		System.out.println(owner + " " +name + " " + showTrace );
-		
+
 		model = (Sklep)getModel();
-		//klient = model.getKlient();
-		
 	}
 	
 	
@@ -50,20 +45,11 @@ public class Klient extends Entity{
 		Map<Stoisko.TypStoiska, Integer> sortedMap = new LinkedHashMap<Stoisko.TypStoiska, Integer>();
 
 		Collections.shuffle(listaStoisk);
-		//Set<Stoisko.TypStoiska> keys = model.mapa.keySet();
 
 		ArrayList tmp = new ArrayList<Stoisko.TypStoiska>();
 		ArrayList finalList = new ArrayList<Stoisko.TypStoiska>();
 		for(int i = 0; i < ile; i++)
 			tmp.add(listaStoisk.get(i));
-
-/*
-		for(int i = 0; i < tmp.size(); i++) {
-			for (Stoisko.TypStoiska typ : keys) {
-
-				if (tmp.get(i).equals(typ))
-					tmpmap.put(typ, model.mapa.get(typ));
-			}*/
 
 			List<Map.Entry<Stoisko.TypStoiska, Integer>> list = new LinkedList<Map.Entry<Stoisko.TypStoiska, Integer>>(tmpmap.entrySet());
 
@@ -73,12 +59,6 @@ public class Klient extends Entity{
 					return ((Integer)(o1.id)).compareTo((Integer)(o2.id));
 				}
 			});
-
-		/*	for (Iterator<Map.Entry<Stoisko.TypStoiska, Integer>> it = list.iterator(); it.hasNext(); ) {
-				Map.Entry<Stoisko.TypStoiska, Integer> entry = it.next();
-				sortedMap.put(entry.getKey(), entry.getValue());
-
-			}*/
 
 
 		return tmp;
@@ -109,7 +89,7 @@ public class Klient extends Entity{
 		
 		}
 
-	public boolean czyZrobilZakupy() {
+/*	public boolean czyZrobilZakupy() {
 		if (getLiczbaProduktow() == 0) {
 			zrobilZakupy = false;
 			return zrobilZakupy;
@@ -120,7 +100,7 @@ public class Klient extends Entity{
 			return zrobilZakupy;
 		}
 	}
-	
+	*/
 	public boolean jedzenie(){
 		restauracja = model.getRestauracja();
 		restauracja.wolneStoliki--;
@@ -133,34 +113,14 @@ public class Klient extends Entity{
 		zaplacil = true;
 	};
 	
-	
-	
-	
-	
-	public int getIleStoisk() {
-		return ileStoisk;
-	}
-	public void setIleStoisk(int ileStoisk) {
-		this.ileStoisk = ileStoisk;
-	}
-	public boolean getMaZakupy() {
-		return maZakupy;
-	}
 
 	public void setMaZakupy(boolean maZakupy) {
 		this.maZakupy = maZakupy;
 	}
 
-	public boolean getMaRestauracje() {
-		return maRestauracje;
-	}
 
 	public void setMaRestauracje(boolean maRestauracje) {
 		this.maRestauracje = maRestauracje;
-	}
-
-	public boolean getMaBiuro() {
-		return maBiuro;
 	}
 
 	public void setMaBiuro(boolean maBiuro) {
@@ -172,19 +132,8 @@ public class Klient extends Entity{
 		return ktoreStoiska;
 	}
 
-
-	public void setKtoreStoiska(ArrayList<Stoisko.TypStoiska> ktoreStoiska) {
-		this.ktoreStoiska = ktoreStoiska;
-	}
-
-
 	public int getLiczbaProduktow() {
 		return liczbaProduktow;
-	}
-
-
-	public void dodajProdukt() {
-		this.liczbaProduktow++;
 	}
 
 

@@ -1,21 +1,15 @@
 package algo;
 
-import Symulacja.GUI.*;
+import desmoj.core.dist.ContDistExponential;
+import desmoj.core.dist.ContDistUniform;
+import desmoj.core.simulator.Model;
+import desmoj.core.simulator.Queue;
+import desmoj.core.simulator.TimeSpan;
+
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
 import java.util.concurrent.TimeUnit;
-
-
-//import other.algo.Stoisko.TypStoiska;
-
-import desmoj.core.dist.ContDistExponential;
-import desmoj.core.dist.ContDistUniform;
-import desmoj.core.simulator.Experiment;
-import desmoj.core.simulator.Model;
-import desmoj.core.simulator.Queue;
-import desmoj.core.simulator.TimeInstant;
-import desmoj.core.simulator.TimeSpan;
 
 
 
@@ -52,10 +46,7 @@ public class Sklep extends Model{
 			public GeneratorKlientow generator;
 
 			private Random rand = new Random();
-			protected int maxLudzi = rand.nextInt(50);
-			protected Queue<Klient> akutalniKlienci, klienci;
-			protected int ileLudzi;
-
+		protected Queue<Klient> akutalniKlienci, klienci;
 
 			protected Stoisko meble;
 			protected Stoisko lazienka;
@@ -69,56 +60,8 @@ public class Sklep extends Model{
 			int wszyscyWRestauracji = 0;
 			int wszyscyWBiurze = 0;
 
-			int mebleInt, sypialniaInt, dekoracjeInt, kuchniaInt, lazienkaInt;
+		double czasGenerowaniaKlienta ;
 
-
-			double czasGenerowaniaKlienta ;
-
-
-/*	public static void main(String [ ] args)
-	{
-			*//*instantiate an experiment
-			instantiate the model
-			connect the model to the experiment
-			determine the length of the simulation run or set an ending criterion for the simulation run
-			set the start and end time for the trace file
-			start the scheduler
-			initiate reporting
-			clean up after the simulation run has ended*//*
-
-
-		//create model and experiment
-
-		// null as first parameter because it is the main model and has no mastermodel
-
-
-		Sklep sklep = new Sklep(null, "Symulacja", false, false);
-		Experiment exp = new Experiment("Symulacja - eksperyment", TimeUnit.SECONDS, TimeUnit.MINUTES, null);
-		sklep.connectToExperiment(exp);
-
-		exp.setShowProgressBar(true);
-		exp.stop(new TimeInstant(720, TimeUnit.MINUTES));
-		exp.tracePeriod(new TimeInstant(0), new TimeInstant(100, TimeUnit.MINUTES));
-		exp.debugPeriod(new TimeInstant(0), new TimeInstant(50, TimeUnit.MINUTES));
-
-
-		exp.start();
-		exp.report();
-
-
-
-		System.out.println("Ilość obsłużonych łacznie klientów w kasach: " + sklep.iloscObsluzonychKlientow);
-		System.out.println("Ilość obsłużonych łacznie klientów na stoisku meble: " +sklep.meble.klienciNaStoisku);
-		System.out.println("Ilość obsłużonych łacznie klientów na stoisku dekoracje: " +sklep.dekoracje.klienciNaStoisku);
-		System.out.println("Ilość obsłużonych łacznie klientów na stoisku lazienka: " +sklep.lazienka.klienciNaStoisku);
-		System.out.println("Ilość obsłużonych łacznie klientów na stoisku kuchnia: " +sklep.kuchnia.klienciNaStoisku);
-		System.out.println("Ilość obsłużonych łacznie klientów na stoisku sypialnia: " +sklep.sypialnia.klienciNaStoisku);
-		System.out.println("Ilość ludzi w sklepie przez cały dzień: " + sklep.getWszyscyKlienci()+ "\r\n");
-		System.out.println("Ilość wszystkich klientów w restauracji przez cały dzień: " + sklep.wszyscyWRestauracji);
-		System.out.println("Ilość wszystkich klientów w bierze przez cały dzień: " + sklep.wszyscyWBiurze);
-
-		exp.finish();
-	};*/
 
 	@Override
 	public String description() {
@@ -209,48 +152,22 @@ public void doInitialSchedules() {
 	}
 
 
-public double getPojawienieSięKlienta() {
-	return pojawienieSięKlienta.sample();
-}
-
-public void setPojawienieSięKlienta(ContDistExponential pojawienieSięKlienta) {
-	this.pojawienieSięKlienta = pojawienieSięKlienta;
-}
 
 public double getObslugaKasy() {
 	return obslugaKasy.sample();
 }
 
-public void setObslugaKasy(ContDistUniform obslugaKasy) {
-	this.obslugaKasy = obslugaKasy;
-}
-
-public Queue<Klient> getAkutalniKlienci() {
-	return akutalniKlienci;
-}
 
 public double getObslugaBiura() {
 	return obslugaBiura.sample();
-}
-
-public void setObslugaBiura(ContDistUniform obslugaBiura) {
-	this.obslugaBiura = obslugaBiura;
 }
 
 public double getObslugaStoiska() {
 	return obslugaStoiska.sample();
 }
 
-public void setObslugaStoiska(ContDistUniform obslugaStoiska) {
-	this.obslugaStoiska = obslugaStoiska;
-}
-
 public double getCzasWRestauracji() {
 	return czasWRestauracji.sample();
-}
-
-public void setCzasWRestauracji(ContDistUniform czasWRestauracji) {
-	this.czasWRestauracji = czasWRestauracji;
 }
 
 public int getWszyscyKlienci() {
@@ -267,32 +184,16 @@ public Kasa getKasa() {
 	return kasa;
 }
 
-public void setKasa(Kasa kasa) {
-	this.kasa = kasa;
-}
-
 public BiuroObslugi getBiuro() {
 	return biuro;
-}
-
-public void setBiuro(BiuroObslugi biuro) {
-	this.biuro = biuro;
 }
 
 public Restauracja getRestauracja() {
 	return restauracja;
 }
 
-public void setRestauracja(Restauracja restauracja) {
-	this.restauracja = restauracja;
-}
-
 public Stoisko getStoisko() {
 	return stoisko;
-}
-
-public void setStoisko(Stoisko stoisko) {
-	this.stoisko = stoisko;
 }
 
 public Klient getKlient() {
@@ -349,10 +250,6 @@ public Stoisko odpowiednieStoisko(Stoisko.TypStoiska typ){
 		return iloscObsluzonychKlientow;
 	}
 
-	public int getKlienciWSklepie() {
-		return klienciWSklepie;
-	}
-
 	public int getWszyscyWRestauracji() {
 		return wszyscyWRestauracji;
 	}
@@ -361,18 +258,10 @@ public Stoisko odpowiednieStoisko(Stoisko.TypStoiska typ){
 		return wszyscyWBiurze;
 	}
 
-
-	public double getCzasGenerowaniaKlienta() {
-		return czasGenerowaniaKlienta;
-	}
-
 	public void setCzasGenerowaniaKlienta(double czasGenerowaniaKlienta) {
 		this.czasGenerowaniaKlienta = czasGenerowaniaKlienta;
 	}
 
-	public GeneratorKlientow getGenerator() {
-		return generator;
-	}
 }
 
 /*
