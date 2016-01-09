@@ -34,8 +34,19 @@ public class Kasa extends Entity{
     public Queue<Klient> getKolejkaDoKas() {
         return kolejkaDoKas;
     }
-	
-	
+
+	@Override
+	public void rysuj(Graphics g, int x, int y) {
+		g.setColor(Color.orange);
+		g.drawRect(x,y,30,10);
+	}
+
+	@Override
+	public String getName() {
+		String toCut = super.getName();
+		String[] cut = toCut.split("#", toCut.indexOf("#"));
+		System.out.println("ll");
+		return cut[0];
 	
 	
 }

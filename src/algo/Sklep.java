@@ -139,12 +139,32 @@ public class Sklep extends Model{
 		czasWRestauracji = new ContDistUniform(this, "Czas spędzony w restauracji", 20.0, 30.0, true, true);
 
 		kasa =new Kasa(this, "other.algo.Kasa", false);
+
+		kasa = new Kasa(this, "Kasa 1", true);
+		kasyLista.add(kasa);
+		kasyLista.add(new Kasa(this, "Kasa 2", true));
+		kasyLista.add(new Kasa(this, "Kasa 3", true));
+		kasyLista.add(new Kasa(this, "Kasa 4", true));
+		kasyLista.add(new Kasa(this, "Kasa 5", true));
+		kasyLista.add(new Kasa(this, "Kasa 6", true));
+
 		akutalniKlienci = new Queue<Klient>(this, "Wszyscy klienci", true, true);
 		biuro = new BiuroObslugi(this, "Biuro obsługi", true);
 		restauracja = new Restauracja(this, "other.algo.Restauracja", true);
 		klienci = new Queue<Klient>(this, "Klienci", true, true);
 		konsultant1 = new Konsultant(this, "konsultant1", true );
 		konsultant2 = new Konsultant(this, "konsultant2", true );
+
+		meble = new Stoisko(this, "Meble", true, Stoisko.TypStoiska.meble);
+		listaStoisk.add(new Stoisko(this, "Meble", true, Stoisko.TypStoiska.meble));
+		lazienka = new Stoisko(this, "lazienka", true, Stoisko.TypStoiska.lazienka);
+		listaStoisk.add(new Stoisko(this, "Lazienka", true, Stoisko.TypStoiska.lazienka));
+		kuchnia = new Stoisko(this, "kuchnia", true, Stoisko.TypStoiska.kuchnia);
+		listaStoisk.add(new Stoisko(this, "Kuchnia", true, Stoisko.TypStoiska.kuchnia));
+		dekoracje = new Stoisko(this, "dekoracje", true, Stoisko.TypStoiska.dekoracje);
+		listaStoisk.add(new Stoisko(this, "Dekoracje", true, Stoisko.TypStoiska.dekoracje));
+		sypialnia = new Stoisko(this, "sypialnia", true, Stoisko.TypStoiska.sypialnia);
+		listaStoisk.add(new Stoisko(this, "Sypialnia", true, Stoisko.TypStoiska.sypialnia));
 
 		getBiuro().wolniKonsultanci.insert(konsultant1);
 		getBiuro().wolniKonsultanci.insert(konsultant2);
