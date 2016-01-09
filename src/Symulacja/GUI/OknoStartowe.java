@@ -2,6 +2,7 @@ package Symulacja.GUI;
 
 
 
+import algo.Okienko;
 import algo.Sklep;
 import desmoj.core.simulator.Experiment;
 import desmoj.core.simulator.TimeInstant;
@@ -127,11 +128,13 @@ import java.util.concurrent.TimeUnit;
             panel4.add(biuroJTF);
             panel5.add(startButton);
 
-
+//dlaczego sie nie pojawia okienko z ikea?
             startButton.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
                     startButtonAction(e);
+                    Okienko frame = new Okienko();
+                    frame.setVisible(true);
                 }
             });
 

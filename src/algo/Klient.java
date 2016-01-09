@@ -1,9 +1,13 @@
 package algo;
+import java.util.Random;
 
 import java.util.*;
 
 import desmoj.core.simulator.Entity;
 import desmoj.core.simulator.Model;
+import rendering.KlientRenderer;
+
+import javax.swing.*;
 
 public class Klient extends Entity{
 
@@ -18,25 +22,32 @@ public class Klient extends Entity{
 	 boolean zjadl = false;
 	 boolean zaplacil = false;
 	 int ileStoisk;
-	int odwiedzone = 0;
-
-
+	 int odwiedzone = 0;
+	 int x, y;
 
 
 	static List<Stoisko.TypStoiska> listaStoisk = Arrays.asList(Stoisko.TypStoiska.values());
-	 ArrayList<Stoisko.TypStoiska> ktoreStoiska;
+	ArrayList<Stoisko.TypStoiska> ktoreStoiska;
 	
-	 int liczbaProduktow;
+	int liczbaProduktow;
 	public boolean zrobilZakupy;
-	
+
+	Renderer renderer;
 	 
 	public Klient(Model owner, String name, boolean showTrace) {
 		super(owner, name, false);
 
 		model = (Sklep)getModel();
 	}
-	
-	
+
+	public void move(){
+		this.x += 10;
+		this.y += 10;
+	}
+
+	public Renderer getRenderer(){
+		return renderer;
+	}
 
 	public ArrayList<Stoisko.TypStoiska> losuj(int ile){
 

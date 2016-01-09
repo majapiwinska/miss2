@@ -3,11 +3,9 @@ package algo;
 import desmoj.core.dist.ContDistExponential;
 import desmoj.core.dist.ContDistUniform;
 import desmoj.core.simulator.*;
+import desmoj.core.simulator.Queue;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Random;
+import java.util.*;
 import java.util.concurrent.TimeUnit;
 
 
@@ -37,7 +35,7 @@ public class Sklep extends Model{
 
 			private Kasa kasa;
 			private BiuroObslugi biuro;
-			private Restauracja restauracja;
+			public static Restauracja restauracja;
 			private Stoisko stoisko;
 			Konsultant konsultant1, konsultant2;
 
@@ -63,6 +61,9 @@ public class Sklep extends Model{
 
 	public static ArrayList<Kasa> kasyLista = new ArrayList<>();
 	public static ArrayList<Stoisko> listaStoisk = new ArrayList<>();
+	public static ArrayList<Restauracja> listaRestauracji = new ArrayList<>();
+	public static ArrayList<BiuroObslugi> listaBiur = new ArrayList<>();
+	public static ArrayList<Klient> listaKlientow = new ArrayList<>();
 
 	public static ArrayList<Kasa> getKasyLista() {
 		return kasyLista;
@@ -71,6 +72,19 @@ public class Sklep extends Model{
 	public static ArrayList<Stoisko> getListaStoisk() {
 		return listaStoisk;
 	}
+
+	public static ArrayList<Restauracja> getListaRestauracji() {
+		return listaRestauracji;
+	}
+
+	public static ArrayList<BiuroObslugi> getListaBiur() {
+		return listaBiur;
+	}
+
+	public static ArrayList<Klient> getListaKlientow() {
+		return listaKlientow;
+	}
+
 
 	@Override
 	public String description() {
@@ -97,20 +111,37 @@ public class Sklep extends Model{
 		kasyLista.add(new Kasa(this, "Kasa 2", true));
 		kasyLista.add(new Kasa(this, "Kasa 3", true));
 		kasyLista.add(new Kasa(this, "Kasa 4", true));
-		kasyLista.add(new Kasa(this, "Kasa 5", true));
-		kasyLista.add(new Kasa(this, "Kasa 6", true));
+//		kasyLista.add(new Kasa(this, "Kasa 5", true));
+//		kasyLista.add(new Kasa(this, "Kasa 6", true));
 
 		akutalniKlienci = new Queue<Klient>(this, "Wszyscy klienci", true, true);
+
 		biuro = new BiuroObslugi(this, "Biuro obsługi", true);
-		restauracja = new Restauracja(this, "other.algo.Restauracja", true);
-		klienci = new Queue<Klient>(this, "Klienci", true, true);
+		listaBiur.add(new BiuroObslugi(this, "Biuro Obsługi", true));
+		restauracja = new Restauracja(this, "Restauracja", true);
+		listaRestauracji.add(new Restauracja(this, "Restauracja", true));
+		//klienci = new Queue<Klient>(this, "Klienci", true, true);
+
+		klient = new Klient(this, "Klient", true);
+		listaKlientow.add(new Klient(this, "Klient", true));
+		listaKlientow.add(new Klient(this, "Klient", true));
+		listaKlientow.add(new Klient(this, "Klient", true));
+		listaKlientow.add(new Klient(this, "Klient", true));
+		listaKlientow.add(new Klient(this, "Klient", true));
+		listaKlientow.add(new Klient(this, "Klient", true));
+		listaKlientow.add(new Klient(this, "Klient", true));
+		listaKlientow.add(new Klient(this, "Klient", true));
+		listaKlientow.add(new Klient(this, "Klient", true));
+		listaKlientow.add(new Klient(this, "Klient", true));
+		listaKlientow.add(new Klient(this, "Klient", true));
+
 		konsultant1 = new Konsultant(this, "konsultant1", true );
 		konsultant2 = new Konsultant(this, "konsultant2", true );
 
 		meble = new Stoisko(this, "Meble", true, Stoisko.TypStoiska.meble);
 		listaStoisk.add(new Stoisko(this, "Meble", true, Stoisko.TypStoiska.meble));
 		lazienka = new Stoisko(this, "lazienka", true, Stoisko.TypStoiska.lazienka);
-		listaStoisk.add(new Stoisko(this, "Lazienka", true, Stoisko.TypStoiska.lazienka));
+		listaStoisk.add(new Stoisko(this, "Łazienka", true, Stoisko.TypStoiska.lazienka));
 		kuchnia = new Stoisko(this, "kuchnia", true, Stoisko.TypStoiska.kuchnia);
 		listaStoisk.add(new Stoisko(this, "Kuchnia", true, Stoisko.TypStoiska.kuchnia));
 		dekoracje = new Stoisko(this, "dekoracje", true, Stoisko.TypStoiska.dekoracje);
@@ -197,7 +228,7 @@ public BiuroObslugi getBiuro() {
 	return biuro;
 }
 
-public Restauracja getRestauracja() {
+public static Restauracja getRestauracja() {
 	return restauracja;
 }
 
