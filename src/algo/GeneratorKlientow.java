@@ -9,139 +9,122 @@ import desmoj.core.simulator.TimeInstant;
 import desmoj.core.simulator.TimeOperations;
 import desmoj.core.simulator.TimeSpan;
 
+public class GeneratorKlientow extends ExternalEvent {
 
-    public class GeneratorKlientow extends ExternalEvent{
-	
     private Sklep model;
     private Stoisko stoisko;
     private Restauracja restauracja;
     private BiuroObslugi biuro;
-	private TimeInstant okres1;
-	private TimeInstant okres2;
-	private TimeOperations cos = null;
-	 private int wspGen= 5; //DODANE
-     private final int MAX= 600;//DODANE
-     private final int MIN= 60;//DODANE
-     private final int AVG= 200;
-	public	Klient klient;
+    private TimeInstant okres1;
+    private TimeInstant okres2;
+    private TimeOperations cos = null;
+    private int wspGen = 5; //DODANE
+    private final int MAX = 600;//DODANE
+    private final int MIN = 60;//DODANE
+    private final int AVG = 200;
+    public Klient klient;
          /* @param owner the model this event belongs to
          @param name this event's name
          @param showInTrace flag to indicate if this event shall produce output for the trace*/
 
-	private int prawdopodobienstwoZakupow, prawdopodobienstwoRestauracji, prawdopodobienstwoBiura;
+    private int prawdopodobienstwoZakupow, prawdopodobienstwoRestauracji, prawdopodobienstwoBiura;
+
+    public GeneratorKlientow(Model owner, String name, boolean showTrace, TimeSpan okres1, TimeSpan okres2, int wspGen) { //DODANE
+        super(owner, name, false);
+        model = (Sklep) getModel();
+        stoisko = model.getStoisko();
+        restauracja = model.getRestauracja();
+        biuro = model.getBiuro();
+        this.okres1 = cos.add(okres1, presentTime());
+        this.okres2 = cos.add(okres2, presentTime());
+        this.wspGen = wspGen;
+    }
+
+    @Override
+    public void eventRoutine() {
+        klient = new Klient(model, "other.algo.Klient", false);
+        model.dodajDoWszystkichKlientow();
+        model.klienci.insert(klient);
+        model.dodajDoKlientowWSklepie();
+
+        Random rand = new Random();
+
+        //ustalenie czy klient ma zrobić zakupy 80% i wylosowanie na których stoiskach
+        int zakupy = rand.nextInt(100);
+        if (zakupy < prawdopodobienstwoZakupow) {
+            klient.setMaZakupy(true);
+
+            Random ran = new Random();
+            int ile = klient.ileStoisk = ran.nextInt(3) + 2;
+            klient.ktoreStoiska = klient.losuj(ile);
+        } else klient.setMaZakupy(false);
 
 
-	public GeneratorKlientow(Model owner, String name, boolean showTrace, TimeSpan okres1, TimeSpan okres2, int wspGen ) { //DODANE
-		super(owner, name, false);
-		model = (Sklep)getModel();
-		stoisko = model.getStoisko();
-		restauracja = model.getRestauracja();
-		biuro = model.getBiuro();
-		this.okres1 = cos.add(okres1, presentTime());
-		this.okres2 = cos.add(okres2, presentTime());
-		this.wspGen= wspGen;
+        //ustalenie czy klient idzie do restauracji 40%
+        int restauracja = rand.nextInt(100);
+        if (restauracja < prawdopodobienstwoRestauracji) {
+            klient.setMaRestauracje(true);
 
+        } else klient.setMaRestauracje(false);
 
+        //ustalenie czy klient idzie do biura obsługi 10%
+        int biuro = rand.nextInt(100);
+        if (biuro < prawdopodobienstwoBiura)
+            klient.setMaBiuro(true);
+        else klient.setMaBiuro(false);
+
+        if (klient.maZakupy) {
+
+//			model.odpowiednieStoisko(klient.getKtoreStoiska().get(0)).kolejkaStoisko.insert(klient);
+            Stoisko stoisko = model.odpowiednieStoisko(klient.getKtoreStoiska().get(0));
+            if (stoisko.typ.id > klient.odwiedzone + 1) {
+                int tmp = rand.nextInt(20);
+                if (tmp < 5) {
+                    int nastepne = klient.odwiedzone + 1;
+                    Stoisko.TypStoiska pomiedzy = model.mapa.get(nastepne);
+                    Stoisko nastStoisko = model.odpowiednieStoisko(pomiedzy);
+                    nastStoisko.kolejkaStoisko.insert(klient);
+
+                }
+            } else {
+                model.odpowiednieStoisko(klient.getKtoreStoiska().get(0)).kolejkaStoisko.insert(klient);
+
+            }
+
+            pojscieNaStoisko pojscie = new pojscieNaStoisko(model, "podejście do stoiska", false, klient);
+            pojscie.schedule(new TimeSpan(0, TimeUnit.MINUTES));
+        } else if (klient.maBiuro) {
+            model.getBiuro().kolejkaDoBiura.insert(klient);
+            pojscieDoBiura pojscie = new pojscieDoBiura(model, "podejście do biura", true);
+            pojscie.schedule(new TimeSpan(0, TimeUnit.MINUTES));
+        } else if (klient.maRestauracje) {
+            model.getRestauracja().kolejkaDoRestauracji.insert(klient);
+            pojscieDoRestauracji pojscie = new pojscieDoRestauracji(model, "pojście do restauracji", true);
+            pojscie.schedule(new TimeSpan(0, TimeUnit.MINUTES));
+        }
+
+        if (presentTime().getTimeAsDouble() > okres2.getTimeAsDouble()) {
+            schedule(new TimeSpan(MIN / wspGen * 50, TimeUnit.SECONDS));
+
+        } else if (presentTime().getTimeAsDouble() < okres1.getTimeAsDouble()) {
+            schedule(new TimeSpan(AVG / wspGen, TimeUnit.SECONDS));
+
+        } else {
+            schedule(new TimeSpan(MAX / wspGen, TimeUnit.SECONDS));
+        }
+    }
+
+    public void setPrawdopodobienstwoRestauracji(int prawdopodobienstwoRestauracji) {
+        this.prawdopodobienstwoRestauracji = prawdopodobienstwoRestauracji;
+    }
+
+    public void setPrawdopodobienstwoBiura(int prawdopodobienstwoBiura) {
+        this.prawdopodobienstwoBiura = prawdopodobienstwoBiura;
+    }
+
+    public void setPrawdopodobienstwoZakupow(int prawdopodobienstwoZakupow) {
+        this.prawdopodobienstwoZakupow = prawdopodobienstwoZakupow;
+    }
 }
 
-	@Override
-	public void eventRoutine() {
-		klient = new Klient(model, "other.algo.Klient", false);
-		model.dodajDoWszystkichKlientow();
-		model.klienci.insert(klient);
-		model.dodajDoKlientowWSklepie();
-
-		Random rand = new Random();
-
-		//ustalenie czy klient ma zrobić zakupy 80% i wylosowanie na których stoiskach
-		int zakupy = rand.nextInt(100);
-		if(zakupy < prawdopodobienstwoZakupow){
-			klient.setMaZakupy(true);
-			
-				Random ran = new Random();
-				int ile = klient.ileStoisk = ran.nextInt(3) + 2;	
-				klient.ktoreStoiska = klient.losuj(ile);
-		}
-		else klient.setMaZakupy(false);
-
-
-		//ustalenie czy klient idzie do restauracji 40%
-		int restauracja = rand.nextInt(100);
-		if(restauracja < prawdopodobienstwoRestauracji) {
-			klient.setMaRestauracje(true);
-
-		}
-		else klient.setMaRestauracje(false);
-		
-		//ustalenie czy klient idzie do biura obsługi 10%
-		int biuro = rand.nextInt(100);
-		if (biuro < prawdopodobienstwoBiura)
-			klient.setMaBiuro(true);
-		else klient.setMaBiuro(false);
-		
-
-		if(klient.maZakupy){
-			
-//			model.odpowiednieStoisko(klient.getKtoreStoiska().get(0)).kolejkaStoisko.insert(klient);
-			Stoisko stoisko = model.odpowiednieStoisko(klient.getKtoreStoiska().get(0));
-			if (stoisko.typ.id > klient.odwiedzone + 1) {
-				int tmp = rand.nextInt(20);
-				if (tmp < 5) {
-					int nastepne = klient.odwiedzone + 1;
-					Stoisko.TypStoiska pomiedzy = model.mapa.get(nastepne);
-					Stoisko nastStoisko = model.odpowiednieStoisko(pomiedzy);
-					nastStoisko.kolejkaStoisko.insert(klient);
-
-				}
-			} else {
-				model.odpowiednieStoisko(klient.getKtoreStoiska().get(0)).kolejkaStoisko.insert(klient);
-
-			}
-
-			pojscieNaStoisko pojscie = new pojscieNaStoisko(model,"podejście do stoiska", false, klient);
-			pojscie.schedule(new TimeSpan(0, TimeUnit.MINUTES));
-		}
-		
-		else if(klient.maBiuro){
-			model.getBiuro().kolejkaDoBiura.insert(klient);
-			pojscieDoBiura pojscie = new pojscieDoBiura(model, "podejście do biura", true);
-			pojscie.schedule(new TimeSpan(0, TimeUnit.MINUTES));
-		}
-		
-		else if(klient.maRestauracje){
-			model.getRestauracja().kolejkaDoRestauracji.insert(klient);
-			pojscieDoRestauracji pojscie = new pojscieDoRestauracji(model, "pojście do restauracji", true);
-			pojscie.schedule(new TimeSpan(0, TimeUnit.MINUTES));
-		}
-		
-		
-		
-		if(presentTime().getTimeAsDouble() > okres2.getTimeAsDouble()){
-			schedule(new TimeSpan(MIN/wspGen*50, TimeUnit.SECONDS));
-			
-		}
-		
-		else if(presentTime().getTimeAsDouble() < okres1.getTimeAsDouble()){
-			schedule(new TimeSpan(AVG/wspGen, TimeUnit.SECONDS));
-			
-		}
-		else{
-			schedule(new TimeSpan(MAX/wspGen, TimeUnit.SECONDS));
-			
-		}
-	}
-
-		public void setPrawdopodobienstwoRestauracji(int prawdopodobienstwoRestauracji) {
-			this.prawdopodobienstwoRestauracji = prawdopodobienstwoRestauracji;
-		}
-
-		public void setPrawdopodobienstwoBiura(int prawdopodobienstwoBiura) {
-			this.prawdopodobienstwoBiura = prawdopodobienstwoBiura;
-		}
-
-		public void setPrawdopodobienstwoZakupow(int prawdopodobienstwoZakupow) {
-			this.prawdopodobienstwoZakupow = prawdopodobienstwoZakupow;
-		}
-	}
-		
 

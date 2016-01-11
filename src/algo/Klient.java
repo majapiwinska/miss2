@@ -1,160 +1,198 @@
 package algo;
+
+import java.awt.*;
+import java.util.List;
 import java.util.Random;
 
 import java.util.*;
 
+import algo.primitives.*;
+import algo.primitives.Point;
 import desmoj.core.simulator.Entity;
 import desmoj.core.simulator.Model;
 import rendering.KlientRenderer;
 
 import javax.swing.*;
 
-public class Klient extends Entity{
+public class Klient extends Entity {
+    ArrayList<algo.primitives.Point> path = new ArrayList<>();
+    public ArrayList<Point> getPath() {
+        return path;
+    }
 
-	 Sklep model;
-	 Restauracja restauracja;
-	 Kasa kasa;
-	 Klient klient;
-	 
-	 boolean maZakupy;
-	 boolean maRestauracje;
-	 boolean maBiuro;
-	 boolean zjadl = false;
-	 boolean zaplacil = false;
-	 int ileStoisk;
-	 int odwiedzone = 0;
-	 int x, y;
+    Color myColor = new Color(new Random().nextInt(254), new Random().nextInt(254), new Random().nextInt(254));
+    public Color getMyColor() {
+        return myColor;
+    }
 
+    Restauracja restauracja;
+    Kasa kasa;
 
-	static List<Stoisko.TypStoiska> listaStoisk = Arrays.asList(Stoisko.TypStoiska.values());
-	ArrayList<Stoisko.TypStoiska> ktoreStoiska;
-	
-	int liczbaProduktow;
-	public boolean zrobilZakupy;
+    Sklep model;
+    Klient klient;
 
-	Renderer renderer;
-	 
-	public Klient(Model owner, String name, boolean showTrace) {
-		super(owner, name, false);
+    boolean maZakupy;
+    boolean maRestauracje;
+    boolean maBiuro;
+    boolean zjadl = false;
+    boolean zaplacil = false;
+    int ileStoisk;
+    int odwiedzone = 0;
+    int x, y;
 
-		model = (Sklep)getModel();
-	}
+    public int globalPathCounter=0;
+    public int getGlobalPathCounter() {
+        return globalPathCounter;
+    }
 
-	public void move(){
-		this.x += 10;
-		this.y += 10;
-	}
+    static List<Stoisko.TypStoiska> listaStoisk = Arrays.asList(Stoisko.TypStoiska.values());
+    ArrayList<Stoisko.TypStoiska> ktoreStoiska;
 
-	public Renderer getRenderer(){
-		return renderer;
-	}
+    int liczbaProduktow;
+    public boolean zrobilZakupy;
 
-	public ArrayList<Stoisko.TypStoiska> losuj(int ile){
+    Renderer renderer;
 
+    public Klient(Model owner, String name, boolean showTrace) {
+        super(owner, name, false);
 
-		Map<Stoisko.TypStoiska, Integer> tmpmap = new HashMap<Stoisko.TypStoiska, Integer>();
-		Map<Stoisko.TypStoiska, Integer> sortedMap = new LinkedHashMap<Stoisko.TypStoiska, Integer>();
+        model = (Sklep) getModel();
+        this.x = 400;
+        this.y = 455;
 
-		Collections.shuffle(listaStoisk);
+        for(int i = 400; i>=90; i= i-10) {
+            path.add(new Point(i, 455));
+        }
+        for(int i=445; i>=345; i= i-10) {
+            path.add(new Point(90, i));
+        }
+        for(int i=100; i<=400; i= i+10) {
+            path.add(new Point(i, 345));
+        }
+        //TODO DOKONCZYC PETLE
+    }
 
-		ArrayList tmp = new ArrayList<Stoisko.TypStoiska>();
-		ArrayList finalList = new ArrayList<Stoisko.TypStoiska>();
-		for(int i = 0; i < ile; i++)
-			tmp.add(listaStoisk.get(i));
+    public void move() {
+//        this.x += 10;
+//        this.y += 10;
+        this.x=path.get(globalPathCounter).getIntX();
+        this.y=path.get(globalPathCounter).getIntY();
+        globalPathCounter++;
+    }
 
-			List<Map.Entry<Stoisko.TypStoiska, Integer>> list = new LinkedList<Map.Entry<Stoisko.TypStoiska, Integer>>(tmpmap.entrySet());
+    public Renderer getRenderer() {
+        return renderer;
+    }
 
-			Collections.sort(tmp, new Comparator<Stoisko.TypStoiska>() {
-				@Override
-				public int compare(Stoisko.TypStoiska o1, Stoisko.TypStoiska o2) {
-					return ((Integer)(o1.id)).compareTo((Integer)(o2.id));
-				}
-			});
-
-
-		return tmp;
-		
-	};
-	
-	public boolean czyKupuje(){
-		Random rand = new Random();
-		boolean czyKupi;
-		int i = rand.nextInt(2);
-		if(i == 0)
-			czyKupi = true;
-		else czyKupi = false;
-		
-		return czyKupi;
-	}
-
-	public int kupuje(){
-		Random rand = new Random();
-		
-		int tmp;
-		if(czyKupuje()){
-			tmp = rand.nextInt(4)+1;
-			return getLiczbaProduktow() + tmp; 
-		}
-		else  
-			return  getLiczbaProduktow();
-		
-		}
-
-/*	public boolean czyZrobilZakupy() {
-		if (getLiczbaProduktow() == 0) {
-			zrobilZakupy = false;
-			return zrobilZakupy;
-		} else
-
-		{
-			zrobilZakupy = true;
-			return zrobilZakupy;
-		}
-	}
-	*/
-	public boolean jedzenie(){
-		restauracja = model.getRestauracja();
-		restauracja.wolneStoliki--;
-		return zjadl = true;
-	}
-	
-	public void placi(){
-		kasa = model.getKasa();
-		liczbaProduktow = 0;
-		zaplacil = true;
-	};
-	
-
-	public void setMaZakupy(boolean maZakupy) {
-		this.maZakupy = maZakupy;
-	}
+    public ArrayList<Stoisko.TypStoiska> losuj(int ile) {
 
 
-	public void setMaRestauracje(boolean maRestauracje) {
-		this.maRestauracje = maRestauracje;
-	}
+        Map<Stoisko.TypStoiska, Integer> tmpmap = new HashMap<Stoisko.TypStoiska, Integer>();
+        Map<Stoisko.TypStoiska, Integer> sortedMap = new LinkedHashMap<Stoisko.TypStoiska, Integer>();
 
-	public void setMaBiuro(boolean maBiuro) {
-		this.maBiuro = maBiuro;
-	}
+        Collections.shuffle(listaStoisk);
+
+        ArrayList tmp = new ArrayList<Stoisko.TypStoiska>();
+        ArrayList finalList = new ArrayList<Stoisko.TypStoiska>();
+        for (int i = 0; i < ile; i++)
+            tmp.add(listaStoisk.get(i));
+
+        List<Map.Entry<Stoisko.TypStoiska, Integer>> list = new LinkedList<Map.Entry<Stoisko.TypStoiska, Integer>>(tmpmap.entrySet());
+
+        Collections.sort(tmp, new Comparator<Stoisko.TypStoiska>() {
+            @Override
+            public int compare(Stoisko.TypStoiska o1, Stoisko.TypStoiska o2) {
+                return ((Integer) (o1.id)).compareTo((Integer) (o2.id));
+            }
+        });
 
 
-	public ArrayList<Stoisko.TypStoiska> getKtoreStoiska() {
-		return ktoreStoiska;
-	}
+        return tmp;
 
-	public int getLiczbaProduktow() {
-		return liczbaProduktow;
-	}
+    }
+
+    ;
+
+    public boolean czyKupuje() {
+        Random rand = new Random();
+        boolean czyKupi;
+        int i = rand.nextInt(2);
+        if (i == 0)
+            czyKupi = true;
+        else czyKupi = false;
+
+        return czyKupi;
+    }
+
+    public int kupuje() {
+        Random rand = new Random();
+
+        int tmp;
+        if (czyKupuje()) {
+            tmp = rand.nextInt(4) + 1;
+            return getLiczbaProduktow() + tmp;
+        } else
+            return getLiczbaProduktow();
+
+    }
+
+    /*	public boolean czyZrobilZakupy() {
+            if (getLiczbaProduktow() == 0) {
+                zrobilZakupy = false;
+                return zrobilZakupy;
+            } else
+
+            {
+                zrobilZakupy = true;
+                return zrobilZakupy;
+            }
+        }
+        */
+    public boolean jedzenie() {
+        restauracja = model.getRestauracja();
+        restauracja.wolneStoliki--;
+        return zjadl = true;
+    }
+
+    public void placi() {
+        kasa = model.getKasa();
+        liczbaProduktow = 0;
+        zaplacil = true;
+    }
+
+    ;
 
 
-	public void skladaReklamacje() {
-		Reklamacja reklamacja = new Reklamacja(model, "reklamacja", true);
-		reklamacja.ileReklamacji++;
-		
-	}
+    public void setMaZakupy(boolean maZakupy) {
+        this.maZakupy = maZakupy;
+    }
 
-	
+
+    public void setMaRestauracje(boolean maRestauracje) {
+        this.maRestauracje = maRestauracje;
+    }
+
+    public void setMaBiuro(boolean maBiuro) {
+        this.maBiuro = maBiuro;
+    }
+
+
+    public ArrayList<Stoisko.TypStoiska> getKtoreStoiska() {
+        return ktoreStoiska;
+    }
+
+    public int getLiczbaProduktow() {
+        return liczbaProduktow;
+    }
+
+
+    public void skladaReklamacje() {
+        Reklamacja reklamacja = new Reklamacja(model, "reklamacja", true);
+        reklamacja.ileReklamacji++;
+
+    }
+
+
 }
 
 

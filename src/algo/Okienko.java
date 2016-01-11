@@ -18,13 +18,17 @@ public class Okienko extends JFrame {
     private static BiuroRender biuroPanel;
     private static KlientRenderer klientPanel;
     public int SCALE = 3;
+    private int ji=0;
+
 
     private static Okienko instance = null;
     public static Okienko getInstance(){
-        if(instance==null)
-            return instance=new Okienko();
-        else
+        if(instance==null) {
+            return instance = new Okienko();
+        }
+        else {
             return instance;
+        }
     }
 
     public Okienko() {
@@ -46,7 +50,7 @@ public class Okienko extends JFrame {
         kasyPanel = new KasyRender(Sklep.getKasyLista());
         kasyPanel.setLayout(new FlowLayout(FlowLayout.LEFT));   //layout
         kasyPanel.setBounds(0,0,800,500);       // wymiary panelu
-        kasyPanel.setBackground(new Color(255,255,255));
+        //kasyPanel.setBackground(new Color(255,255,255));
         kasyPanel.setOpaque(false);     //zeby nie bylo przezroczyste
 
         stoiskaPanel = new StoiskaRender(Sklep.getListaStoisk());
@@ -67,34 +71,57 @@ public class Okienko extends JFrame {
         klientPanel = new KlientRenderer(Sklep.getListaKlientow());
         klientPanel.setLayout(new FlowLayout(FlowLayout.LEFT));
         klientPanel.setBounds(0,0,800,500);
+//        klientPanel.setBackground(Color.CYAN);
         klientPanel.setOpaque(false);
 
+//        final JPanel finalPanel = new JPanel();
+//        biuroPanel.add(klientPanel);
+//        restauracjaPanel.add(biuroPanel);
+//        stoiskaPanel.add(restauracjaPanel);
+//        kasyPanel.add(stoiskaPanel);
         this.add(kasyPanel);        //adding panel to frame
         kasyPanel.repaint();
-
         this.add(stoiskaPanel);
         stoiskaPanel.repaint();
-
         this.add(restauracjaPanel);
         restauracjaPanel.repaint();
-
         this.add(biuroPanel);
         biuroPanel.repaint();
+        this.add(klientPanel);
+        klientPanel.repaint();
+
+//        finalPanel.add(kasyPanel);
+//        this.add(finalPanel);
 
         Runnable animation = new Runnable() {
             @Override
             public void run() {
                 while(true) {
-                    klientPanel.getGraphics().clearRect(0,0, klientPanel.getWidth(), klientPanel.getHeight());
                     for (Klient k : Sklep.getListaKlientow()) {
                         k.move();
-                        //k.getRenderer().renderer(klientPanel.getGraphics());
+                        System.out.println("[INFO] Current path " + k.getPath().get(k.getGlobalPathCounter()).getIntX() + " " + k.getPath().get(k.getGlobalPathCounter()).getIntY());
                     }
                     try {
-                        Thread.sleep(1000);
+                        Thread.sleep(200);
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
+                    klientPanel.repaint();
+//                    finalPanel.repaint();
+                    if(ji%2==0) {
+                        ArrayList<Klient> tempLista = Sklep.getListaKlientow();
+                        tempLista.add(new Klient(Sklep.getInstance(), "KlientX", true));
+                        Sklep.setListaKlientow(tempLista);
+
+                    }
+
+                    ji++;
+
+                    //TODO listaklientow for, spr czy pozycja jest w zakresie np kuchni i jesli tak to
+                    // biore prawodpodobienstwo z klasy oknostartowe to wymnozyc ilosc tych osob przez prawdopodobienstwo
+                    // zaokraglic i zatrzymac ich: Klient k.getPath
+
+
                 }
             }
         };
@@ -103,7 +130,6 @@ public class Okienko extends JFrame {
 
         this.pack();
         this.setVisible(true);
-
     }
 
     public static void main (String[] args) {

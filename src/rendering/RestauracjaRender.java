@@ -28,6 +28,5 @@ public class RestauracjaRender extends JPanel {
             g.setFont(new Font("Arial",Font.PLAIN, 12));
             g.drawString(listaRestauracji.get(i).getName(), 505+50*i * instancjaOkna.SCALE, 138 * instancjaOkna.SCALE);
         }
-
     }
 }
