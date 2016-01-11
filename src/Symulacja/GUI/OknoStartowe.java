@@ -133,10 +133,13 @@ import java.util.concurrent.TimeUnit;
                 @Override
                 public void actionPerformed(ActionEvent e) {
                     startButtonAction(e);
+                    //Okienko frame = new Okienko();
+                    //frame.setVisible(true);
                     Okienko.getInstance();
-//                    frame.setVisible(true);
+                    //frame.setVisible(true);
                 }
-            });
+
+        });
 
             pojawienieSieCombo.addActionListener(new ActionListener() {
                 @Override
