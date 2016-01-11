@@ -36,7 +36,7 @@ public class Okienko extends JFrame {
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setPreferredSize(new Dimension(790, 550));
         try {
-            this.setContentPane(new JLabel(new ImageIcon(ImageIO.read(new File("src/algo/ikea.jpg")))));
+            this.setContentPane(new JLabel(new ImageIcon(ImageIO.read(new File("MISS2/src/algo/ikea.jpg")))));
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -99,10 +99,10 @@ public class Okienko extends JFrame {
                 while(true) {
                     for (Klient k : Sklep.getListaKlientow()) {
                         k.move();
-                        System.out.println("[INFO] Current path " + k.getPath().get(k.getGlobalPathCounter()).getIntX() + " " + k.getPath().get(k.getGlobalPathCounter()).getIntY());
+                        //System.out.println("[INFO] Current path " + k.getPath().get(k.getGlobalPathCounter()).getIntX() + " " + k.getPath().get(k.getGlobalPathCounter()).getIntY());
                     }
                     try {
-                        Thread.sleep(200);
+                        Thread.sleep(300);
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }

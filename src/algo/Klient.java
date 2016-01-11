@@ -69,7 +69,21 @@ public class Klient extends Entity {
         for(int i=100; i<=400; i= i+10) {
             path.add(new Point(i, 345));
         }
-        //TODO DOKONCZYC PETLE
+        for(int i=345; i>=200; i= i-10) {
+            path.add(new Point(400, i));
+        }
+        for(int i=400; i>=90; i= i-10) {
+            path.add(new Point(i, 200));
+        }
+        for(int i=200; i>=40; i= i-10) {
+            path.add(new Point(90, i));
+        }
+        for(int i=90; i<=617; i= i+10) {
+            path.add(new Point(i, 40));
+        }
+        for(int i=40; i<=455; i= i+10) {
+            path.add(new Point(617, i));
+        }
     }
 
     public void move() {
