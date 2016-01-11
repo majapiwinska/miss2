@@ -89,9 +89,12 @@ public class Klient extends Entity {
     public void move() {
 //        this.x += 10;
 //        this.y += 10;
-        this.x=path.get(globalPathCounter).getIntX();
-        this.y=path.get(globalPathCounter).getIntY();
-        globalPathCounter++;
+       try{
+           this.x=path.get(globalPathCounter).getIntX();
+           this.y=path.get(globalPathCounter).getIntY();
+           globalPathCounter++;
+       }
+       catch (IndexOutOfBoundsException e) {}
     }
 
     public Renderer getRenderer() {
