@@ -161,11 +161,13 @@ public class Sklep extends Model {
 
     }
 
-    public void inicjalizacjaGeneratora(int prawdopodobienstwoZakupow, int prawdopodobienstwoRestauracji, int prawdopodobienstwoBiura) {
+    public void inicjalizacjaGeneratora(int prawdopodobienstwoZakupow, int prawdopodobienstwoRestauracji, int prawdopodobienstwoBiura, int wspGen) {
         generator = new GeneratorKlientow(this, "generator klientów", false, new TimeSpan(3, TimeUnit.HOURS), new TimeSpan(9, TimeUnit.HOURS), 5);
         generator.setPrawdopodobienstwoZakupow(prawdopodobienstwoZakupow);
         generator.setPrawdopodobienstwoRestauracji(prawdopodobienstwoRestauracji);
         generator.setPrawdopodobienstwoBiura(prawdopodobienstwoBiura);
+        generator.setWspGen(wspGen);
+
     }
 
     public double getObslugaKasy() {

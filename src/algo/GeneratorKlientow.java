@@ -18,7 +18,7 @@ public class GeneratorKlientow extends ExternalEvent {
     private TimeInstant okres1;
     private TimeInstant okres2;
     private TimeOperations cos = null;
-    private int wspGen = 5; //DODANE
+    private int wspGen ; //DODANE
     private final int MAX = 600;//DODANE
     private final int MIN = 60;//DODANE
     private final int AVG = 200;
@@ -38,6 +38,7 @@ public class GeneratorKlientow extends ExternalEvent {
         this.okres1 = cos.add(okres1, presentTime());
         this.okres2 = cos.add(okres2, presentTime());
         this.wspGen = wspGen;
+
     }
 
     @Override
@@ -112,6 +113,10 @@ public class GeneratorKlientow extends ExternalEvent {
         } else {
             schedule(new TimeSpan(MAX / wspGen, TimeUnit.SECONDS));
         }
+    }
+
+    public void setWspGen(int wspGen) {
+        this.wspGen = wspGen;
     }
 
     public void setPrawdopodobienstwoRestauracji(int prawdopodobienstwoRestauracji) {

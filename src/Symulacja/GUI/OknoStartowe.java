@@ -16,7 +16,7 @@ import java.util.concurrent.TimeUnit;
 
     public class OknoStartowe extends JFrame{
 
-    public double czasPojawieniaKlienta;
+    public int czasPojawieniaKlienta;
     private int prawdopodobienstwoZakupow, prawdopodobienstwoRestauracji, prawdopodobienstwoBiura;
 
         final static JPanel panel1 = new JPanel();
@@ -24,10 +24,10 @@ import java.util.concurrent.TimeUnit;
         final static JPanel panel3 = new JPanel();
         final static JPanel panel4 = new JPanel();
         final static JPanel panel5 = new JPanel();
-         JComboBox<Double> pojawienieSieCombo = new JComboBox<Double>();
+         JComboBox pojawienieSieCombo = new JComboBox();
         final JComboBox<Double> minCzasStoiska = new JComboBox<Double>();
 
-        JLabel pojawienieLabel = new JLabel("Wybierz co jaki czas pojawi się klient (minuty)");
+        JLabel pojawienieLabel = new JLabel("Wybierz współczynnik generowania klientów: ");
         JLabel zakupyLabel = new JLabel("Wpisz % generowania prawdopodobieństwa zakupów dla klientów");
         JLabel biuroLabel = new JLabel("Wpisz % generowania prawdopodobieństwa pójścia do biura dla klientów");
         JLabel restauracjaLabel = new JLabel("Wpisz % generowania prawdopodobieństwa pójścia do restauracji dla klientów");
@@ -74,16 +74,16 @@ import java.util.concurrent.TimeUnit;
 
         private void initComponents(){
 
-            pojawienieSieCombo.addItem(1.0);
-            pojawienieSieCombo.addItem(2.0);
-            pojawienieSieCombo.addItem(3.0);
-            pojawienieSieCombo.addItem(4.0);
-            pojawienieSieCombo.addItem(5.0);
-            pojawienieSieCombo.addItem(6.0);
-            pojawienieSieCombo.addItem(7.0);
-            pojawienieSieCombo.addItem(8.0);
-            pojawienieSieCombo.addItem(9.0);
-            pojawienieSieCombo.addItem(10.0);
+            pojawienieSieCombo.addItem("1");
+            pojawienieSieCombo.addItem("2");
+            pojawienieSieCombo.addItem("3");
+            pojawienieSieCombo.addItem("4");
+            pojawienieSieCombo.addItem("5");
+            pojawienieSieCombo.addItem("6");
+            pojawienieSieCombo.addItem("7");
+            pojawienieSieCombo.addItem("8");
+            pojawienieSieCombo.addItem("9");
+            pojawienieSieCombo.addItem("10");
 
             zakupyJTF.addItem("10");
             zakupyJTF.addItem("20");
@@ -176,8 +176,8 @@ import java.util.concurrent.TimeUnit;
         }
 
         private void pojawienieSieComboAction(ActionEvent e) {
-                pojawienieSieCombo = (JComboBox)e.getSource();
-                czasPojawieniaKlienta = (Double)pojawienieSieCombo.getSelectedItem();
+                JComboBox cb = (JComboBox)e.getSource();
+                czasPojawieniaKlienta = Integer.parseInt((String)cb.getSelectedItem());
 
         }
 
@@ -188,7 +188,7 @@ import java.util.concurrent.TimeUnit;
             Experiment exp = new Experiment("Symulacja - eksperyment", TimeUnit.SECONDS, TimeUnit.MINUTES, null);
             sklep.connectToExperiment(exp);
 
-            sklep.inicjalizacjaGeneratora(prawdopodobienstwoZakupow, prawdopodobienstwoRestauracji, prawdopodobienstwoBiura);
+            sklep.inicjalizacjaGeneratora(prawdopodobienstwoZakupow, prawdopodobienstwoRestauracji, prawdopodobienstwoBiura, czasPojawieniaKlienta);
             exp.setShowProgressBar(true);
             exp.stop(new TimeInstant(720, TimeUnit.MINUTES));
             exp.tracePeriod(new TimeInstant(0), new TimeInstant(100, TimeUnit.MINUTES));

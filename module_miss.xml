@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="module_miss" default="compile.module.miss">
+  <dirname property="module.miss.basedir" file="${ant.file.module_miss}"/>
+  
+  <property name="module.jdk.home.miss" value="${jdk.home.intellij_idea_iu-143.1184.17}"/>
+  <property name="module.jdk.bin.miss" value="${jdk.bin.intellij_idea_iu-143.1184.17}"/>
+  <property name="module.jdk.classpath.miss" value="jdk.classpath.intellij_idea_iu-143.1184.17"/>
+  
+  <property name="compiler.args.miss" value="-encoding UTF-8 -source 1.6 -target 1.6 ${compiler.args}"/>
+  
+  <property name="miss.output.dir" value="${module.miss.basedir}/out/production/MISS"/>
+  <property name="miss.testoutput.dir" value="${module.miss.basedir}/out/test/MISS"/>
+  
+  <path id="miss.module.bootclasspath">
+    <!-- Paths to be included in compilation bootclasspath -->
+  </path>
+  
+  <path id="miss.module.production.classpath">
+    <path refid="${module.jdk.classpath.miss}"/>
+    <path refid="library.desmoj-2.3.4-complete-bin.classpath"/>
+  </path>
+  
+  <path id="miss.runtime.production.module.classpath">
+    <pathelement location="${miss.output.dir}"/>
+    <path refid="library.desmoj-2.3.4-complete-bin.classpath"/>
+  </path>
+  
+  <path id="miss.module.classpath">
+    <path refid="${module.jdk.classpath.miss}"/>
+    <pathelement location="${miss.output.dir}"/>
+    <path refid="library.desmoj-2.3.4-complete-bin.classpath"/>
+  </path>
+  
+  <path id="miss.runtime.module.classpath">
+    <pathelement location="${miss.testoutput.dir}"/>
+    <pathelement location="${miss.output.dir}"/>
+    <path refid="library.desmoj-2.3.4-complete-bin.classpath"/>
+  </path>
+  
+  
+  <patternset id="excluded.from.module.miss">
+    <patternset refid="ignored.files"/>
+  </patternset>
+  
+  <patternset id="excluded.from.compilation.miss">
+    <patternset refid="excluded.from.module.miss"/>
+  </patternset>
+  
+  <path id="miss.module.sourcepath">
+    <dirset dir="${module.miss.basedir}">
+      <include name="src"/>
+    </dirset>
+  </path>
+  
+  
+  <target name="compile.module.miss" depends="compile.module.miss.production,compile.module.miss.tests" description="Compile module MISS"/>
+  
+  <target name="compile.module.miss.production" depends="register.custom.compilers" description="Compile module MISS; production classes">
+    <mkdir dir="${miss.output.dir}"/>
+    <javac2 destdir="${miss.output.dir}" debug="${compiler.debug}" nowarn="${compiler.generate.no.warnings}" memorymaximumsize="${compiler.max.memory}" fork="true" executable="${module.jdk.bin.miss}/javac">
+      <compilerarg line="${compiler.args.miss}"/>
+      <bootclasspath refid="miss.module.bootclasspath"/>
+      <classpath refid="miss.module.production.classpath"/>
+      <src refid="miss.module.sourcepath"/>
+      <patternset refid="excluded.from.compilation.miss"/>
+    </javac2>
+    
+    <copy todir="${miss.output.dir}">
+      <fileset dir="${module.miss.basedir}/src">
+        <patternset refid="compiler.resources"/>
+        <type type="file"/>
+      </fileset>
+    </copy>
+  </target>
+  
+  <target name="compile.module.miss.tests" depends="register.custom.compilers,compile.module.miss.production" description="compile module MISS; test classes" unless="skip.tests"/>
+  
+  <target name="clean.module.miss" description="cleanup module">
+    <delete dir="${miss.output.dir}"/>
+    <delete dir="${miss.testoutput.dir}"/>
+  </target>
+</project>
