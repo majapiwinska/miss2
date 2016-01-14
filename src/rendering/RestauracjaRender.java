@@ -23,7 +23,7 @@ public class RestauracjaRender extends JPanel {
 
         for(int i = 0; i < listaRestauracji.size(); i++) {
             g.setColor(new Color(255, 78, 51));
-            g.fillRect((500+50*i* instancjaOkna.SCALE),131* instancjaOkna.SCALE,30* instancjaOkna.SCALE,13* instancjaOkna.SCALE);
+            g.fillRect(500+50*i* instancjaOkna.SCALE,131* instancjaOkna.SCALE,30* instancjaOkna.SCALE,13* instancjaOkna.SCALE);
             g.setColor(Color.WHITE);
             g.setFont(new Font("Arial",Font.PLAIN, 12));
             g.drawString(listaRestauracji.get(i).getName(), 505+50*i * instancjaOkna.SCALE, 138 * instancjaOkna.SCALE);

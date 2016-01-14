@@ -19,6 +19,7 @@ public class Okienko extends JFrame {
     private static KlientRenderer klientPanel;
     public int SCALE = 3;
     private int ji=0;
+    int counter = 0;
 
 
     private static Okienko instance = null;
@@ -43,14 +44,11 @@ public class Okienko extends JFrame {
 
         this.setLayout(null);
 
-//        Sklep sklep = new Sklep(null, "Symulacja", true, true);
-        Sklep sklep = Sklep.getInstance();
-        sklep.executeSklep();
+        Sklep.getInstance().executeSklep();
 
         kasyPanel = new KasyRender(Sklep.getKasyLista());
         kasyPanel.setLayout(new FlowLayout(FlowLayout.LEFT));   //layout
         kasyPanel.setBounds(0,0,800,500);       // wymiary panelu
-        //kasyPanel.setBackground(new Color(255,255,255));
         kasyPanel.setOpaque(false);     //zeby nie bylo przezroczyste
 
         stoiskaPanel = new StoiskaRender(Sklep.getListaStoisk());
@@ -71,14 +69,8 @@ public class Okienko extends JFrame {
         klientPanel = new KlientRenderer(Sklep.getListaKlientow());
         klientPanel.setLayout(new FlowLayout(FlowLayout.LEFT));
         klientPanel.setBounds(0,0,800,500);
-//        klientPanel.setBackground(Color.CYAN);
         klientPanel.setOpaque(false);
 
-//        final JPanel finalPanel = new JPanel();
-//        biuroPanel.add(klientPanel);
-//        restauracjaPanel.add(biuroPanel);
-//        stoiskaPanel.add(restauracjaPanel);
-//        kasyPanel.add(stoiskaPanel);
         this.add(kasyPanel);        //adding panel to frame
         kasyPanel.repaint();
         this.add(stoiskaPanel);
@@ -90,38 +82,28 @@ public class Okienko extends JFrame {
         this.add(klientPanel);
         klientPanel.repaint();
 
-//        finalPanel.add(kasyPanel);
-//        this.add(finalPanel);
 
         Runnable animation = new Runnable() {
             @Override
             public void run() {
-                while(true) {
+                while (true) {
                     for (Klient k : Sklep.getListaKlientow()) {
                         k.move();
-                        //System.out.println("[INFO] Current path " + k.getPath().get(k.getGlobalPathCounter()).getIntX() + " " + k.getPath().get(k.getGlobalPathCounter()).getIntY());
                     }
                     try {
-                        Thread.sleep(300);
+                        Thread.sleep(50);
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
                     klientPanel.repaint();
-//                    finalPanel.repaint();
-                    if(ji%2==0) {
+                    //if(counter%100) <= Sklep.getInstance().getWszyscyKlienci()) {
+                    if(counter <= Sklep.getInstance().getWszyscyKlienci()) {
                         ArrayList<Klient> tempLista = Sklep.getListaKlientow();
                         tempLista.add(new Klient(Sklep.getInstance(), "KlientX", true));
                         Sklep.setListaKlientow(tempLista);
 
                     }
-
-                    ji++;
-
-                    //TODO listaklientow for, spr czy pozycja jest w zakresie np kuchni i jesli tak to
-                    // biore prawodpodobienstwo z klasy oknostartowe to wymnozyc ilosc tych osob przez prawdopodobienstwo
-                    // zaokraglic i zatrzymac ich: Klient k.getPath
-
-
+                    counter++;
                 }
             }
         };
@@ -134,15 +116,6 @@ public class Okienko extends JFrame {
 
     public static void main (String[] args) {
         getInstance();
-
-        //region zliczanie elementów przestrzeni
-//        for(other.Rysownik rys : obiekty) {       // tutaj zliczamy ile czego mamy, żeby potem wyświetlić. Musimy to wiedzieć żeby w tym momencie wiedziec ile rysujamy
-//            if(rys.getClass().isInstance(other.KasaG.class)) kasyIlosc++;
-//            if(rys.getClass().isInstance(other.Stoisko.class)) stoiskaIlosc++;
-//            if(rys.getClass().isInstance(other.BiuroObslugi.class)) biuraObslugiIlosc++;
-//            if(rys.getClass().isInstance(other.Restauracja.class)) restauracjeIlosc++;
-//        }
-        //endregion
 
     }
 

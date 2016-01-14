@@ -25,14 +25,6 @@ public class StoiskaRender extends JPanel {
         super.paintComponent(g);
         instancjaOkna = Okienko.getInstance();
 
-//        for(int i = 0; i < listaStoisk.size(); i++) {
-//            g.setColor(new Color(110, 163, 255));
-//            g.fillRect((10+50*i* instancjaOkna.SCALE),60* instancjaOkna.SCALE,40* instancjaOkna.SCALE,10* instancjaOkna.SCALE);
-//            g.setColor(Color.WHITE);
-//            g.setFont(new Font("Biko",Font.PLAIN, 15));
-//            g.drawString(listaStoisk.get(i).getName(), 35+50*i * instancjaOkna.SCALE, 67 * instancjaOkna.SCALE);
-//        }
-
         for (int i = 0; i < listaStoisk.size(); i++){
             switch(i){
                 case 0: g.setColor(new Color(255, 255, 255));

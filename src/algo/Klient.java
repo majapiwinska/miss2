@@ -6,6 +6,7 @@ import java.util.Random;
 
 import java.util.*;
 
+import Symulacja.GUI.OknoStartowe;
 import algo.primitives.*;
 import algo.primitives.Point;
 import desmoj.core.simulator.Entity;
@@ -81,7 +82,31 @@ public class Klient extends Entity {
         for(int i=90; i<=617; i= i+10) {
             path.add(new Point(i, 40));
         }
-        for(int i=40; i<=455; i= i+10) {
+        for(int i=40; i<=250; i= i+10) {
+            int prawdopodobienstwoZakupow = OknoStartowe.getInstance().getPrawdopodobienstwoZakupow();
+            Random generator = new Random();
+            int k = generator.nextInt(100);
+            if (k <= prawdopodobienstwoZakupow) {
+                //idziesz do kasy
+                if (k%4 == 0) {
+                    for (int j = 0; j <= 10;  j++) {
+                        path.add(new Point((617 - (j*10)), (250 + (j*10))));
+                    }
+                }
+                else if (k%4 == 1){
+//                    for (int x = 250; x <= 400; i = i+10) {
+//                        for (int y = 617; y >= 500; i = i-10) {
+//                            path.add(new Point(x,y));
+//                        }
+//                    }
+                }
+                else if (k%4 == 2) {
+
+                }
+                else if (k%4 == 3) {
+
+                }
+            }
             path.add(new Point(617, i));
         }
     }

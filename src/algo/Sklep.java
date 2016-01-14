@@ -18,7 +18,6 @@ import java.util.concurrent.TimeUnit;
 public class Sklep extends Model {
     public Sklep(Model owner, String name, boolean showReport, boolean showTrace) {
         super(null, name, showReport, showTrace);
-
     }
 
     Map<Integer, Stoisko.TypStoiska> mapa;
@@ -100,15 +99,15 @@ public class Sklep extends Model {
         obslugaStoiska = new ContDistUniform(this, "Czas obsługi stoiska", 12.0, 14.0, true, true);
         czasWRestauracji = new ContDistUniform(this, "Czas spędzony w restauracji", 20.0, 30.0, true, true);
 
-        kasa = new Kasa(this, "other.algo.Kasa", false);
+//        kasa = new Kasa(this, "other.algo.Kasa", false);
+        kasyLista.clear();
+        listaRestauracji.clear();
         kasa = new Kasa(this, "Kasa 1", true);
 
         kasyLista.add(kasa);
         kasyLista.add(new Kasa(this, "Kasa 2", true));
         kasyLista.add(new Kasa(this, "Kasa 3", true));
         kasyLista.add(new Kasa(this, "Kasa 4", true));
-//		kasyLista.add(new Kasa(this, "Kasa 5", true));
-//		kasyLista.add(new Kasa(this, "Kasa 6", true));
 
         akutalniKlienci = new Queue<Klient>(this, "Wszyscy klienci", true, true);
 
