@@ -1,6 +1,5 @@
 package Symulacja.GUI;
 
-
 import algo.Okienko;
 import algo.Sklep;
 import desmoj.core.simulator.Experiment;
@@ -11,7 +10,6 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.concurrent.TimeUnit;
-
 
 public class OknoStartowe extends JFrame {
 

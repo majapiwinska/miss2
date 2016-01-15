@@ -82,7 +82,6 @@ public class Okienko extends JFrame {
         this.add(klientPanel);
         klientPanel.repaint();
 
-
         Runnable animation = new Runnable() {
             @Override
             public void run() {
@@ -97,13 +96,13 @@ public class Okienko extends JFrame {
                     }
                     klientPanel.repaint();
                     //if(counter%100) <= Sklep.getInstance().getWszyscyKlienci()) {
-                    if(counter <= Sklep.getInstance().getWszyscyKlienci()) {
+//                    if(counter <= Sklep.getInstance().getWszyscyKlienci()) {
+                    if(counter <= 100) {
                         ArrayList<Klient> tempLista = Sklep.getListaKlientow();
                         tempLista.add(new Klient(Sklep.getInstance(), "KlientX", true));
                         Sklep.setListaKlientow(tempLista);
-
+                        counter++;
                     }
-                    counter++;
                 }
             }
         };

@@ -17,11 +17,13 @@ import javax.swing.*;
 
 public class Klient extends Entity {
     ArrayList<algo.primitives.Point> path = new ArrayList<>();
+
     public ArrayList<Point> getPath() {
         return path;
     }
 
     Color myColor = new Color(new Random().nextInt(254), new Random().nextInt(254), new Random().nextInt(254));
+
     public Color getMyColor() {
         return myColor;
     }
@@ -41,7 +43,8 @@ public class Klient extends Entity {
     int odwiedzone = 0;
     int x, y;
 
-    public int globalPathCounter=0;
+    public int globalPathCounter = 0;
+
     public int getGlobalPathCounter() {
         return globalPathCounter;
     }
@@ -61,7 +64,7 @@ public class Klient extends Entity {
         this.x = 400;
         this.y = 455;
 
-        for(int i = 400; i>=90; i= i-10) {
+        for (int i = 400; i >= 90; i = i - 10) {
             path.add(new Point(i, 455));
         }
         for(int i=445; i>=345; i= i-10) {
@@ -79,34 +82,56 @@ public class Klient extends Entity {
         for(int i=200; i>=40; i= i-10) {
             path.add(new Point(90, i));
         }
-        for(int i=90; i<=617; i= i+10) {
+        for (int i = 90; i <= 617; i = i + 10) {
             path.add(new Point(i, 40));
         }
-        for(int i=40; i<=250; i= i+10) {
-            int prawdopodobienstwoZakupow = OknoStartowe.getInstance().getPrawdopodobienstwoZakupow();
+        for (int i = 40; i < 250; i = i + 10) {
+            path.add(new Point(617, i));
+        }
+        {
+//            int prawdopodobienstwoZakupow = OknoStartowe.getInstance().getPrawdopodobienstwoZakupow();
+            int prawdopodobienstwoZakupow = 80;
             Random generator = new Random();
             int k = generator.nextInt(100);
-            if (k <= prawdopodobienstwoZakupow) {
+            if (k <= prawdopodobienstwoZakupow) {               // rozdzielenie do poszczególnych kas
                 //idziesz do kasy
-                if (k%4 == 0) {
-                    for (int j = 0; j <= 10;  j++) {
-                        path.add(new Point((617 - (j*10)), (250 + (j*10))));
+                int l = generator.nextInt(4);
+                if (l % 4 == 0) {
+                    for (int j = 0; j <= 7; j++) {
+                        path.add(new Point((617 - (j * 10)), (250 + (j * 10))));
+                    }
+                    for (int j = 0; j <= 7; j++) {
+                        path.add(new Point((547 + (j * 10)), (320 + (j * 10))));
+                    }
+                } else if (l % 4 == 1) {
+                    for (int j = 0; j <= 7; j++) {
+                        path.add(new Point((617 - (j * 5)), (250 + (j * 10))));
+                    }
+                    for (int j = 0; j <= 7; j++) {
+                        path.add(new Point((582 + (j * 5)), (320 + (j * 10))));
+                    }
+                } else if (l % 4 == 2) {
+                    for (int j = 0; j <= 7; j++) {
+                        path.add(new Point((617 + (j * 5)), (250 + (j * 10))));
+                    }
+                    for (int j = 0; j <= 7; j++) {
+                        path.add(new Point((652 - (j * 5)), (320 + (j * 10))));
+                    }
+                } else if (l % 4 == 3) {
+                    for (int j = 0; j <= 7; j++) {
+                        path.add(new Point((617 + (j * 10)), (250 + (j * 10))));
+                    }
+                    for (int j = 0; j <= 7; j++) {
+                        path.add(new Point((687 - (j * 10)), (320 + (j * 10))));
                     }
                 }
-                else if (k%4 == 1){
-//                    for (int x = 250; x <= 400; i = i+10) {
-//                        for (int y = 617; y >= 500; i = i-10) {
-//                            path.add(new Point(x,y));
-//                        }
-//                    }
-                }
-                else if (k%4 == 2) {
-
-                }
-                else if (k%4 == 3) {
-
+            } else {
+                for (int r = 250; r < 390; r = r + 10) {
+                    path.add(new Point(617, r));
                 }
             }
+        }
+        for (int i = 390; i <= 450; i = i + 10) {       // dokończenie ścieżki od łączenia z tymi co wyszli z kas
             path.add(new Point(617, i));
         }
     }
@@ -114,12 +139,12 @@ public class Klient extends Entity {
     public void move() {
 //        this.x += 10;
 //        this.y += 10;
-       try{
-           this.x=path.get(globalPathCounter).getIntX();
-           this.y=path.get(globalPathCounter).getIntY();
-           globalPathCounter++;
-       }
-       catch (IndexOutOfBoundsException e) {}
+        try {
+            this.x = path.get(globalPathCounter).getIntX();
+            this.y = path.get(globalPathCounter).getIntY();
+            globalPathCounter++;
+        } catch (IndexOutOfBoundsException e) {
+        }
     }
 
     public Renderer getRenderer() {
